@@ -188,5 +188,34 @@ public class NeedDao {
         return flag;
     }
 
+    public JSONArray getJoinedNeedByUserId(int userId){
+        JSONArray jar = new JSONArray();
+        JSONObject js;
+        String sql = "SELECT * FROM  needlist WHERE needId IN (SELECT needId FROM joining WHERE userId=?)";
+        try(Connection conn = JDBCConn.getCon()){
+            PreparedStatement statement = (PreparedStatement)conn.prepareStatement(sql);
+            statement.setInt(1,userId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()){
+                js =new JSONObject();
+                js.put("needId",rs.getInt("NeedId"));
+                js.put("userId",rs.getString("UserId"));
+                js.put("stadiumId",rs.getString("StadiumId"));
+                js.put("time",rs.getString("Time"));
+                js.put("username",rs.getString("username"));
+                js.put("stadiumname",rs.getString("stadiumname"));
+                js.put("num",rs.getInt("num_people"));
+                js.put("num_join",rs.getInt("num_join"));
+                js.put("remark",rs.getString("Remark"));
+                js.put("sportstype",rs.getString("sportstypeId"));
+                jar.add(js);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return jar;
+    }
+
 
 }

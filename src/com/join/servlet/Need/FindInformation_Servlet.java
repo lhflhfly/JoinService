@@ -12,11 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-@WebServlet(name = "FindInformation_Servlet",urlPatterns ={"/FindInformation_Servlet"} )
+@WebServlet(name = "FindInformation_Servlet", urlPatterns = {"/FindInformation_Servlet"})
 public class FindInformation_Servlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    public FindInformation_Servlet(){
+    public FindInformation_Servlet() {
         super();
     }
 
@@ -26,25 +26,42 @@ public class FindInformation_Servlet extends HttpServlet {
         BufferedReader reader = request.getReader();
         StringBuilder stringBuilder = new StringBuilder();
         String line = null;
-        while ((line = reader.readLine())!=null){
+        while ((line = reader.readLine()) != null) {
             stringBuilder.append(line);
         }
         String req = stringBuilder.toString();
         System.out.println(req);//
         JSONObject js = JSONObject.fromObject(req);
+        int method = js.getInt("method");
+        String userId = js.getString("userId");
         NeedDao needDao = new NeedDao();
-        JSONArray getfindinformation = needDao.getFindInformationByUserId();
-        System.out.println("用");
-        if(getfindinformation.size()==0){
-            String res =null;
-            response.setHeader("Content-type", "text/html;charset=UTF-8");
-            response.getWriter().append(res).flush();
-        }else {
-            String res = getfindinformation.toString();
-            response.setHeader("Content-type", "text/html;charset=UTF-8");
-            response.getWriter().append(res).flush();
-            System.out.printf(res);
+        if (method == 1) {
+            JSONArray getfindinformation = needDao.getFindInformationByUserId();
+            System.out.println("用");
+            if (getfindinformation.size() == 0) {
+                String res = null;
+                response.setHeader("Content-type", "text/html;charset=UTF-8");
+                response.getWriter().append(res).flush();
+            } else {
+                String res = getfindinformation.toString();
+                response.setHeader("Content-type", "text/html;charset=UTF-8");
+                response.getWriter().append(res).flush();
+                System.out.printf(res);
+            }
+        } else if (method == 2) {
+            JSONArray getfindinformation = needDao.getJoinedNeedByUserId(Integer.parseInt(userId));
+            if (getfindinformation.size() == 0) {
+                String res = null;
+                response.setHeader("Content-type", "text/html;charset=UTF-8");
+                response.getWriter().append(res).flush();
+            } else {
+                String res = getfindinformation.toString();
+                response.setHeader("Content-type", "text/html;charset=UTF-8");
+                response.getWriter().append(res).flush();
+                System.out.printf(res);
+            }
         }
+
     }
 
     @Override
