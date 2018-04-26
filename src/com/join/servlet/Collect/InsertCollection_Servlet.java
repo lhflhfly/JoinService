@@ -30,11 +30,16 @@ public class InsertCollection_Servlet extends HttpServlet {
         String userId = js.getString("userId");
         CollectDao collectDao = new CollectDao();
         JSONObject results = new JSONObject();
-        boolean insert = collectDao.insertCollect(Integer.parseInt(stadiumId), Integer.parseInt(userId));
-        if (insert) {
-            results.put("result", 1);
-        }else{
-            results.put("result", 0);
+        if (collectDao.isCollected(Integer.parseInt(stadiumId), Integer.parseInt(userId))) {
+            boolean insert = collectDao.insertCollect(Integer.parseInt(stadiumId), Integer.parseInt(userId));
+            if (insert) {
+                results.put("result", 1);
+            } else {
+                results.put("result", 0);
+            }
+
+        } else {
+            results.put("result", 3);
         }
         System.out.println("即将发送给客户端的是:" + results.toString());
         response.setHeader("Content-type", "text/html;charset=UTF-8");

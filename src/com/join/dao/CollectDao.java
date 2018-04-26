@@ -1,6 +1,8 @@
 package com.join.dao;
 
 import com.join.util.JDBCConn;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -57,5 +59,35 @@ public class CollectDao {
             e.printStackTrace();
         }
         return flag;
+    }
+
+    public JSONArray getCollectStdaiumByUserId(int userId){
+        JSONArray jar = new JSONArray();
+        JSONObject js;
+        String sql = "SELECT * FROM  stadium WHERE stadiumId IN (SELECT stadiumId FROM collect WHERE userId=?)";
+        try(Connection conn = JDBCConn.getCon()){
+            PreparedStatement statement = (PreparedStatement)conn.prepareStatement(sql);
+            statement.setInt(1,userId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()){
+                js =new JSONObject();
+                js.put("stadiumId",rs.getInt("stadiumId"));
+                js.put("stadiumname",rs.getString("stadiumname"));
+                js.put("stadiumtypeId",rs.getString("stadiumtypeId"));
+                js.put("area",rs.getString("area"));
+                js.put("num",rs.getString("num"));
+                js.put("indoor",rs.getInt("indoor"));
+                js.put("aircondition",rs.getInt("aircondition"));
+                js.put("city",rs.getString("city"));
+                js.put("mainpicture",rs.getString("mainpicture"));
+                js.put("adress",rs.getString("adress"));
+                jar.add(js);
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return jar;
     }
 }
