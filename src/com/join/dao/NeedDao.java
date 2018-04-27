@@ -122,6 +122,20 @@ public class NeedDao {
         return flag;
     }
 
+    public boolean updateUserJoinNumDelete(int needId){
+        Boolean flag = false;
+        String sql = "UPDATE need SET num_join=num_join-1 WHERE NeedId=?";
+        try(Connection conn = JDBCConn.getCon()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1,needId);
+            statement.executeUpdate();
+            flag = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return flag;
+    }
+
     public int getNum(int needId){
         int num=0;
         String sql = "SELECT num_people FROM need WHERE NeedId=?";
@@ -215,6 +229,22 @@ public class NeedDao {
             e.printStackTrace();
         }
         return jar;
+    }
+
+    public boolean deleteJoinedNeed(int userId,int needId){
+        Boolean flag=false;
+        String sql = "DELETE  FROM joining WHERE needId=? AND userId=?";
+        try(Connection conn = JDBCConn.getCon()){
+            PreparedStatement statement = (PreparedStatement)conn.prepareStatement(sql);
+            statement.setInt(1,needId);
+            statement.setInt(2,userId);
+            statement.executeUpdate();
+            flag = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            flag = false;
+        }
+        return flag;
     }
 
 
