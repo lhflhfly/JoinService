@@ -30,6 +30,7 @@ public class UserDao {
                 js.put("sex",resultSet.getString("sex"));
                 js.put("tel",resultSet.getString("tel"));
                 js.put("myRight",resultSet.getString("myRight"));
+                js.put("proflie",resultSet.getString("proflie"));
             }else {
                 js.put("userId",0);
             }
@@ -57,6 +58,7 @@ public class UserDao {
                 js.put("sex",resultSet.getString("sex"));
                 js.put("tel",resultSet.getString("tel"));
                 js.put("myRight",resultSet.getString("myRight"));
+                js.put("proflie",resultSet.getString("proflie"));
             }else {
                 js.put("userId",0);
             }
@@ -84,6 +86,7 @@ public class UserDao {
                 js.put("sex",resultSet.getString("sex"));
                 js.put("tel",resultSet.getString("tel"));
                 js.put("myRight",resultSet.getString("myRight"));
+                js.put("proflie",resultSet.getString("proflie"));
             }else {
                 js.put("userId",0);
             }
@@ -204,6 +207,23 @@ public class UserDao {
         }
         return flag;
     }
+
+    public boolean updateProflie(int userId,String proflie){
+        Boolean flag = false;
+        String sql = "UPDATE user SET proflie=? WHERE userId=?";
+        try(Connection conn = JDBCConn.getCon()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1,proflie);
+            statement.setInt(2,userId);
+            statement.executeUpdate();
+            flag = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return flag;
+    }
+
+
 
 
 

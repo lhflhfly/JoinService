@@ -7,9 +7,17 @@ public class Stadium {
     private String stadiumtype;
     private String area;
     private String num;
+    private String opentime;
     private boolean indoor;
     private boolean aircondition;
 
+    public String getOpentime() {
+        return opentime;
+    }
+
+    public void setOpentime(String opentime) {
+        this.opentime = opentime;
+    }
 
     public int getStadiumId() {
         return stadiumId;

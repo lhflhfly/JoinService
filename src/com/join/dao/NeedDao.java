@@ -54,6 +54,7 @@ public class NeedDao {
                 js.put("num_join",rs.getInt("num_join"));
                 js.put("remark",rs.getString("Remark"));
                 js.put("sportstype",rs.getString("sportstypeId"));
+                js.put("userproflie",rs.getString("proflie"));
                 jar.add(js);
 
             }
@@ -98,6 +99,7 @@ public class NeedDao {
                 js.put("num_join",rs.getInt("num_join"));
                 js.put("remark",rs.getString("Remark"));
                 js.put("sportstype",rs.getString("sportstypeId"));
+                js.put("userproflie",rs.getString("proflie"));
                 jar.add(js);
 
             }

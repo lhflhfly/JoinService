@@ -31,6 +31,7 @@ public class StadiumDao {
                 js.put("city",rs.getString("city"));
                 js.put("mainpicture",rs.getString("mainpicture"));
                 js.put("adress",rs.getString("adress"));
+                js.put("opentime",rs.getString("opentime"));
                 jar.add(js);
 
             }
@@ -63,6 +64,7 @@ public class StadiumDao {
                 js.put("city",rs.getString("city"));
                 js.put("mainpicture",rs.getString("mainpicture"));
                 js.put("adress",rs.getString("adress"));
+                js.put("opentime",rs.getString("opentime"));
                 jar.add(js);
 
             }
