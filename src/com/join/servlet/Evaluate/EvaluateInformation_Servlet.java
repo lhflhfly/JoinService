@@ -1,7 +1,7 @@
-package com.join.servlet.Book;
+package com.join.servlet.Evaluate;
 
 import com.join.dao.BookDao;
-import com.join.dao.StadiumDao;
+import com.join.dao.EvaluateDao;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -13,11 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-@WebServlet(name = "OrderInformation_Servlet",urlPatterns ={"/OrderInformation_Servlet"} )
-public class OrderInformation_Servlet extends HttpServlet {
+@WebServlet(name = "EvaluateInformation_Servlet",urlPatterns ={"/EvaluateInformation_Servlet"} )
+public class EvaluateInformation_Servlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    public OrderInformation_Servlet(){
+    public EvaluateInformation_Servlet(){
         super();
     }
 
@@ -33,11 +33,11 @@ public class OrderInformation_Servlet extends HttpServlet {
         String req = stringBuilder.toString();
         System.out.println(req);//
         JSONObject js = JSONObject.fromObject(req);
-        BookDao bookDao = new BookDao();
+        EvaluateDao evaluateDao = new EvaluateDao();
         String userId = js.getString("userId");
         int method = js.getInt("method");
         if (method==1){
-            JSONArray getorderinformation = bookDao.getOrderInformationByUserId(userId);
+            JSONArray getorderinformation = evaluateDao.getNoEvaluateInformationByUserId(userId);
             System.out.println("用");
             if(getorderinformation.size()==0){
                 String res =null;
@@ -50,7 +50,7 @@ public class OrderInformation_Servlet extends HttpServlet {
                 System.out.printf(res);
             }
         }else if(method==2){
-            JSONArray getorderinformation = bookDao.getOrderInformation_usedByUserId(userId);
+            JSONArray getorderinformation = evaluateDao.getEvaluatedInformationByUserId(userId);
             System.out.println("用");
             if(getorderinformation.size()==0){
                 String res =null;

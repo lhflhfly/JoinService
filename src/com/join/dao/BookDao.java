@@ -36,7 +36,32 @@ public class BookDao {
     public JSONArray getOrderInformationByUserId(String userId){
         JSONArray jar = new JSONArray();
         JSONObject js;
-        String sql = "SELECT * FROM  booklist WHERE UserId=? ";
+        String sql = "SELECT * FROM  booklist WHERE UserId=? AND Used=0";
+        try(Connection conn = JDBCConn.getCon()){
+            PreparedStatement statement = (PreparedStatement)conn.prepareStatement(sql);
+            statement.setString(1,userId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()){
+                js =new JSONObject();
+                js.put("bookingId",rs.getInt("BookingId"));
+                js.put("stadiumname",rs.getString("stadiumname"));
+                js.put("placename",rs.getString("PlaceId"));
+                js.put("time",rs.getString("Time"));
+                js.put("time_order",rs.getString("OrderTime"));
+                jar.add(js);
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return jar;
+    }
+
+    public JSONArray getOrderInformation_usedByUserId(String userId){
+        JSONArray jar = new JSONArray();
+        JSONObject js;
+        String sql = "SELECT * FROM  booklist WHERE UserId=? AND Used=1";
         try(Connection conn = JDBCConn.getCon()){
             PreparedStatement statement = (PreparedStatement)conn.prepareStatement(sql);
             statement.setString(1,userId);
