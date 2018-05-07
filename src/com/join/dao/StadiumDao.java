@@ -14,7 +14,7 @@ public class StadiumDao {
     public JSONArray getStdaiumByCity(String city){
         JSONArray jar = new JSONArray();
         JSONObject js;
-        String sql = "SELECT * FROM  stadium WHERE city=?";
+        String sql = "SELECT * FROM  stadium WHERE city=? ORDER BY grade DESC";
         try(Connection conn = JDBCConn.getCon()){
             PreparedStatement statement = (PreparedStatement)conn.prepareStatement(sql);
             statement.setString(1,city);
@@ -32,6 +32,7 @@ public class StadiumDao {
                 js.put("mainpicture",rs.getString("mainpicture"));
                 js.put("adress",rs.getString("adress"));
                 js.put("opentime",rs.getString("opentime"));
+                js.put("closetime",rs.getString("closetime"));
                 js.put("grade",rs.getDouble("grade"));
                 jar.add(js);
 
@@ -46,7 +47,7 @@ public class StadiumDao {
     public JSONArray getStdaiumByName(String stadiumname,String city){
         JSONArray jar = new JSONArray();
         JSONObject js;
-        String sql = "SELECT * FROM  stadium WHERE (stadiumname LIKE ? OR stadiumtypeId LIKE ?) AND city=? ";
+        String sql = "SELECT * FROM  stadium WHERE (stadiumname LIKE ? OR stadiumtypeId LIKE ?) AND city=?  ORDER BY grade DESC";
         try(Connection conn = JDBCConn.getCon()){
             PreparedStatement statement = (PreparedStatement)conn.prepareStatement(sql);
             statement.setString(1,"%"+stadiumname+"%");
@@ -66,6 +67,7 @@ public class StadiumDao {
                 js.put("mainpicture",rs.getString("mainpicture"));
                 js.put("adress",rs.getString("adress"));
                 js.put("opentime",rs.getString("opentime"));
+                js.put("closetime",rs.getString("closetime"));
                 js.put("grade",rs.getDouble("grade"));
                 jar.add(js);
 

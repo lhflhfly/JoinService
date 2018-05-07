@@ -81,6 +81,7 @@ public class CollectDao {
                 js.put("city",rs.getString("city"));
                 js.put("mainpicture",rs.getString("mainpicture"));
                 js.put("adress",rs.getString("adress"));
+                js.put("grade",rs.getDouble("grade"));
                 jar.add(js);
 
             }
