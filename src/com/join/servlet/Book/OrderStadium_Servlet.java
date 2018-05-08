@@ -33,7 +33,7 @@ public class OrderStadium_Servlet extends HttpServlet {
         book.setStadiumId(Integer.parseInt(js.getString("stadiumId")));
         book.setTime(js.getString("time"));
         book.setTime_order(js.getString("time_order"));
-        book.setPlaceName(js.getString("placename"));
+        book.setPlaceId(Integer.parseInt(js.getString("placeId")));
         book.setTel(js.getString("tel"));
         JSONObject results = new JSONObject();
             boolean insert = bookDao.orderStadium(book);

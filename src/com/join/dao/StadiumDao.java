@@ -79,13 +79,15 @@ public class StadiumDao {
         return jar;
     }
 
-    public JSONArray getPlaceByStadiumId(int stadiumId){
+    public JSONArray getPlaceByStadiumId(int stadiumId,String time){
         JSONArray jar = new JSONArray();
         JSONObject js;
-        String sql = "SELECT * FROM  place WHERE StadiumId=? ";
+        String sql = "SELECT * FROM  place WHERE StadiumId=? AND PlaceId NOT IN (SELECT PlaceId FROM booking WHERE StadiumId=? AND OrderTime=?)";
         try(Connection conn = JDBCConn.getCon()){
             PreparedStatement statement = (PreparedStatement)conn.prepareStatement(sql);
             statement.setInt(1,stadiumId);
+            statement.setInt(2,stadiumId);
+            statement.setString(3,time);
             ResultSet rs = statement.executeQuery();
             while (rs.next()){
                 js =new JSONObject();
@@ -101,6 +103,23 @@ public class StadiumDao {
             e.printStackTrace();
         }
         return jar;
+    }
+
+    public int selectPlaceOrdered(int stadiumId,String time){
+        int placeId=-1;
+        String sql = "SELECT PlaceId FROM booking WHERE StadiumId=? AND OrderTime=?";
+        try(Connection conn = JDBCConn.getCon()){
+            PreparedStatement statement = (PreparedStatement)conn.prepareStatement(sql);
+            statement.setInt(1,stadiumId);
+            statement.setString(2,time);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()){
+                placeId=rs.getInt("PlaceId");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return placeId;
     }
 
 

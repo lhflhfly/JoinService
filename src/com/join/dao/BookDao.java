@@ -20,7 +20,7 @@ public class BookDao {
             PreparedStatement statement = (PreparedStatement)conn.prepareStatement(sql);
             statement.setInt(1,book.getUserId());
             statement.setInt(2,book.getStadiumId());
-            statement.setString(3,book.getPlaceName());
+            statement.setInt(3,book.getPlaceId());
             statement.setString(4,book.getTime());
             statement.setString(5,book.getTime_order());
             statement.setString(6,book.getTel());
@@ -45,7 +45,7 @@ public class BookDao {
                 js =new JSONObject();
                 js.put("bookingId",rs.getInt("BookingId"));
                 js.put("stadiumname",rs.getString("stadiumname"));
-                js.put("placename",rs.getString("PlaceId"));
+                js.put("placename",rs.getString("Placename"));
                 js.put("time",rs.getString("Time"));
                 js.put("time_order",rs.getString("OrderTime"));
                 jar.add(js);

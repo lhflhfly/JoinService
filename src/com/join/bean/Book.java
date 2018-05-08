@@ -3,7 +3,7 @@ package com.join.bean;
 public class Book {
     private int stadiumId;
     private int userId;
-    private String placeName;
+    private int placeId;
     private String time;
     private String tel;
     private String time_order;
@@ -32,12 +32,12 @@ public class Book {
         this.userId = userId;
     }
 
-    public String getPlaceName() {
-        return placeName;
+    public int getPlaceId() {
+        return placeId;
     }
 
-    public void setPlaceName(String placeName) {
-        this.placeName = placeName;
+    public void setPlaceId(int placeId) {
+        this.placeId = placeId;
     }
 
     public String getTime() {
