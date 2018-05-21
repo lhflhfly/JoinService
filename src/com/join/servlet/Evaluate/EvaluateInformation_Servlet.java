@@ -2,6 +2,7 @@ package com.join.servlet.Evaluate;
 
 import com.join.dao.BookDao;
 import com.join.dao.EvaluateDao;
+import com.join.factory.Factory;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -37,7 +38,8 @@ public class EvaluateInformation_Servlet extends HttpServlet {
         String userId = js.getString("userId");
         int method = js.getInt("method");
         if (method==1){
-            JSONArray getorderinformation = evaluateDao.getNoEvaluateInformationByUserId(userId);
+//            JSONArray getorderinformation = evaluateDao.getNoEvaluateInformationByUserId(userId);
+            JSONArray getorderinformation = Factory.getEvaluateDAOIpmlProxy().getNoEvaluateInformationByUserId(userId);
             System.out.println("用");
             if(getorderinformation.size()==0){
                 String res =null;
@@ -50,7 +52,8 @@ public class EvaluateInformation_Servlet extends HttpServlet {
                 System.out.printf(res);
             }
         }else if(method==2){
-            JSONArray getorderinformation = evaluateDao.getEvaluatedInformationByUserId(userId);
+//            JSONArray getorderinformation = evaluateDao.getEvaluatedInformationByUserId(userId);
+            JSONArray getorderinformation = Factory.getEvaluateDAOIpmlProxy().getEvaluatedInformationByUserId(userId);
             System.out.println("用");
             if(getorderinformation.size()==0){
                 String res =null;
@@ -69,6 +72,6 @@ public class EvaluateInformation_Servlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doPost(request,response);
     }
 }

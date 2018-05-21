@@ -2,6 +2,7 @@ package com.join.servlet.Book;
 
 import com.join.dao.BookDao;
 import com.join.dao.StadiumDao;
+import com.join.factory.Factory;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -33,11 +34,11 @@ public class OrderInformation_Servlet extends HttpServlet {
         String req = stringBuilder.toString();
         System.out.println(req);//
         JSONObject js = JSONObject.fromObject(req);
-        BookDao bookDao = new BookDao();
         String userId = js.getString("userId");
         int method = js.getInt("method");
         if (method==1){
-            JSONArray getorderinformation = bookDao.getOrderInformationByUserId(userId);
+//            JSONArray getorderinformation = bookDao.getOrderInformationByUserId(userId);
+            JSONArray getorderinformation = Factory.getBookDAOIpmlProxy().getOrderInformationByUserId(userId);
             System.out.println("用");
             if(getorderinformation.size()==0){
                 String res =null;
@@ -50,7 +51,7 @@ public class OrderInformation_Servlet extends HttpServlet {
                 System.out.printf(res);
             }
         }else if(method==2){
-            JSONArray getorderinformation = bookDao.getOrderInformation_usedByUserId(userId);
+            JSONArray getorderinformation = Factory.getBookDAOIpmlProxy().getOrderInformation_usedByUserId(userId);
             System.out.println("用");
             if(getorderinformation.size()==0){
                 String res =null;
@@ -69,6 +70,6 @@ public class OrderInformation_Servlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doPost(request,response);
     }
 }

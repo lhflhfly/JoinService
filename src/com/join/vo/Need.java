@@ -1,4 +1,4 @@
-package com.join.bean;
+package com.join.vo;
 
 public class Need {
     private int userId;

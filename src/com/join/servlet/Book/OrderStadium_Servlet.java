@@ -1,9 +1,8 @@
 package com.join.servlet.Book;
 
-import com.join.bean.Book;
-import com.join.bean.User;
+import com.join.factory.Factory;
+import com.join.vo.Book;
 import com.join.dao.BookDao;
-import com.join.dao.UserDao;
 import net.sf.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -36,7 +35,8 @@ public class OrderStadium_Servlet extends HttpServlet {
         book.setPlaceId(Integer.parseInt(js.getString("placeId")));
         book.setTel(js.getString("tel"));
         JSONObject results = new JSONObject();
-            boolean insert = bookDao.orderStadium(book);
+//            boolean insert = bookDao.orderStadium(book);
+        boolean insert = Factory.getBookDAOIpmlProxy().orderStadium(book);
             if(insert){
                 results.put("result",1);
             }
@@ -47,6 +47,6 @@ public class OrderStadium_Servlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doPost(request,response);
     }
 }

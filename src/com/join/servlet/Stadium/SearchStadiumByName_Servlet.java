@@ -1,6 +1,7 @@
 package com.join.servlet.Stadium;
 
 import com.join.dao.StadiumDao;
+import com.join.factory.Factory;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -35,7 +36,8 @@ public class SearchStadiumByName_Servlet extends HttpServlet {
         StadiumDao stadiumDao = new StadiumDao();
         String stadiumname = js.getString("stadiumname");
         String city = js.getString("city");
-        JSONArray getstadium = stadiumDao.getStdaiumByName(stadiumname,city);
+//        JSONArray getstadium = stadiumDao.getStdaiumByName(stadiumname,city);
+        JSONArray getstadium = Factory.getStadiumDAOIpmlProxy().getStdaiumByName(stadiumname,city);
         System.out.println("用");
         if(getstadium.size()==0){
             String res =null;
@@ -51,6 +53,6 @@ public class SearchStadiumByName_Servlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doPost(request,response);
     }
 }

@@ -1,6 +1,7 @@
 package com.join.servlet.Stadium;
 
 import com.join.dao.StadiumDao;
+import com.join.factory.Factory;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -35,7 +36,8 @@ public class PlaceName_Servlet extends HttpServlet {
         String stadiumnId = js.getString("stadiumId");
         String time = js.getString("timeorder");
         StadiumDao stadiumDao = new StadiumDao();
-        JSONArray getPlace = stadiumDao.getPlaceByStadiumId(Integer.parseInt(stadiumnId),time);
+//        JSONArray getPlace = stadiumDao.getPlaceByStadiumId(Integer.parseInt(stadiumnId),time);
+        JSONArray getPlace = Factory.getStadiumDAOIpmlProxy().getPlaceByStadiumId(Integer.parseInt(stadiumnId),time);
         System.out.println("用");
         if(getPlace.size()==0){
             String res =null;
@@ -51,6 +53,6 @@ public class PlaceName_Servlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doPost(request,response);
     }
 }

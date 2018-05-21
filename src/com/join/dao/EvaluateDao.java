@@ -1,6 +1,5 @@
 package com.join.dao;
 
-import com.join.bean.Book;
 import com.join.util.JDBCConn;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;

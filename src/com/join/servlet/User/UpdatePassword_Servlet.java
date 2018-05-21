@@ -1,7 +1,7 @@
 package com.join.servlet.User;
 
-import com.join.bean.User;
 import com.join.dao.UserDao;
+import com.join.factory.Factory;
 import net.sf.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
-
+/*
+修改密码
+*/
 @WebServlet(name = "UpdatePassword_Servlet", urlPatterns = {"/UpdatePassword_Servlet"})
 public class UpdatePassword_Servlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -36,7 +38,7 @@ public class UpdatePassword_Servlet extends HttpServlet {
         String userId = js.getString("userId");
         String password = js.getString("password");
         JSONObject results = new JSONObject();
-        boolean update = userdao.updatePassword(Integer.parseInt(userId),password);
+        boolean update = Factory.getUserDAOIpmlProxy().updatePassword(Integer.parseInt(userId),password);
         if (update) {
             results.put("result", 1);
         }else {
@@ -50,6 +52,6 @@ public class UpdatePassword_Servlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doPost(request,response);
     }
 }

@@ -1,9 +1,7 @@
 package com.join.servlet.Stadium;
 
-import com.join.bean.Stadium;
-import com.join.bean.User;
 import com.join.dao.StadiumDao;
-import com.join.dao.UserDao;
+import com.join.factory.Factory;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -37,7 +35,8 @@ public class LoadingOrder_Servlet extends HttpServlet {
         JSONObject js = JSONObject.fromObject(req);
         StadiumDao stadiumDao = new StadiumDao();
         String city = js.getString("city");
-        JSONArray getstadium = stadiumDao.getStdaiumByCity(city);
+//        JSONArray getstadium = stadiumDao.getStdaiumByCity(city);
+        JSONArray getstadium = Factory.getStadiumDAOIpmlProxy().getStdaiumByCity(city);
         System.out.println("用");
         if(getstadium.size()==0){
             String res =null;
@@ -53,6 +52,6 @@ public class LoadingOrder_Servlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doPost(request,response);
     }
 }

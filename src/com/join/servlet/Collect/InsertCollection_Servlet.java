@@ -1,8 +1,7 @@
 package com.join.servlet.Collect;
 
-import com.join.bean.Need;
 import com.join.dao.CollectDao;
-import com.join.dao.NeedDao;
+import com.join.factory.Factory;
 import net.sf.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -30,15 +29,16 @@ public class InsertCollection_Servlet extends HttpServlet {
         String userId = js.getString("userId");
         CollectDao collectDao = new CollectDao();
         JSONObject results = new JSONObject();
-        if (collectDao.isCollected(Integer.parseInt(stadiumId), Integer.parseInt(userId))) {
-            boolean insert = collectDao.insertCollect(Integer.parseInt(stadiumId), Integer.parseInt(userId));
+        if (Factory.getCollectDAOIpmlProxy().isCollected(Integer.parseInt(stadiumId), Integer.parseInt(userId))){
+//            boolean insert = collectDao.insertCollect(Integer.parseInt(stadiumId), Integer.parseInt(userId));
+            boolean insert = Factory.getCollectDAOIpmlProxy().insertCollect(Integer.parseInt(stadiumId), Integer.parseInt(userId));
             if (insert) {
                 results.put("result", 1);
             } else {
                 results.put("result", 0);
             }
 
-        } else {
+        } else{
             results.put("result", 3);
         }
         System.out.println("即将发送给客户端的是:" + results.toString());
@@ -48,6 +48,6 @@ public class InsertCollection_Servlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doPost(request,response);
     }
 }

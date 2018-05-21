@@ -1,6 +1,7 @@
 package com.join.servlet.Collect;
 
 import com.join.dao.CollectDao;
+import com.join.factory.Factory;
 import net.sf.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -28,7 +29,8 @@ public class DeleteCollection_Servlet extends HttpServlet {
         String userId = js.getString("userId");
         CollectDao collectDao = new CollectDao();
         JSONObject results = new JSONObject();
-        boolean insert = collectDao.deleteCollection(Integer.parseInt(stadiumId), Integer.parseInt(userId));
+//        boolean insert = collectDao.deleteCollection(Integer.parseInt(stadiumId), Integer.parseInt(userId));
+        boolean insert = Factory.getCollectDAOIpmlProxy().deleteCollection(Integer.parseInt(stadiumId), Integer.parseInt(userId));
         if (insert) {
             results.put("result", 2);
         }else{
@@ -41,6 +43,6 @@ public class DeleteCollection_Servlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doPost(request,response);
     }
 }

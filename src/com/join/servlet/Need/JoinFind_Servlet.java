@@ -1,6 +1,7 @@
 package com.join.servlet.Need;
 
 import com.join.dao.NeedDao;
+import com.join.factory.Factory;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -12,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-@WebServlet(name = "JoinFind_Servlet",urlPatterns ={"/JoinFind_Servlet"} )
+@WebServlet(name = "JoinFind_Servlet", urlPatterns = {"/JoinFind_Servlet"})
 public class JoinFind_Servlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private int num;
@@ -20,7 +21,7 @@ public class JoinFind_Servlet extends HttpServlet {
     private int userId;
     private int needId;
 
-    public JoinFind_Servlet(){
+    public JoinFind_Servlet() {
         super();
     }
 
@@ -30,7 +31,7 @@ public class JoinFind_Servlet extends HttpServlet {
         BufferedReader reader = request.getReader();
         StringBuilder stringBuilder = new StringBuilder();
         String line = null;
-        while ((line = reader.readLine())!=null){
+        while ((line = reader.readLine()) != null) {
             stringBuilder.append(line);
         }
         String req = stringBuilder.toString();
@@ -39,38 +40,41 @@ public class JoinFind_Servlet extends HttpServlet {
         NeedDao needDao = new NeedDao();
         needId = Integer.parseInt(js.getString("needId"));
         userId = Integer.parseInt(js.getString("userId"));
-        num = needDao.getNum(needId);
-        num_join = needDao.getNumJoin(needId);
+//        num = needDao.getNum(needId);
+        num = Factory.getNeedDAOIpmlProxy().getNum(needId);
+//        num_join = needDao.getNumJoin(needId);
+        num_join = Factory.getNeedDAOIpmlProxy().getNumJoin(needId);
         JSONObject results = new JSONObject();
-        if(needDao.isJoined(userId,needId)){
-            results.put("result",3);
+        if (Factory.getNeedDAOIpmlProxy().isJoined(userId, needId)) {
+            results.put("result", 3);
             response.setHeader("Content-type", "text/html;charset=UTF-8");
             response.getWriter().append(results.toString()).flush();
 
-        }else {
-            if(num>num_join){
-
-                boolean flag = needDao.updateUserJoinNum(needId);
-                if (flag){
-                    boolean flag2 = needDao.insertJoin(userId,needId);
-                    if(flag2){
-                        results.put("result",1);
+        } else {
+            if (num > num_join) {
+                boolean flag = Factory.getNeedDAOIpmlProxy().updateUserJoinNum(needId);
+//                boolean flag = needDao.updateUserJoinNum(needId);
+                if (flag) {
+//                    boolean flag2 = needDao.insertJoin(userId,needId);
+                    boolean flag2 = Factory.getNeedDAOIpmlProxy().insertJoin(userId, needId);
+                    if (flag2) {
+                        results.put("result", 1);
                         response.setHeader("Content-type", "text/html;charset=UTF-8");
                         response.getWriter().append(results.toString()).flush();
 
-                    }else {
-                        results.put("result",0);
+                    } else {
+                        results.put("result", 0);
                         response.setHeader("Content-type", "text/html;charset=UTF-8");
                         response.getWriter().append(results.toString()).flush();
 
                     }
-                }else {
-                    results.put("result",0);
+                } else {
+                    results.put("result", 0);
                     response.setHeader("Content-type", "text/html;charset=UTF-8");
                     response.getWriter().append(results.toString()).flush();
                 }
-            }else {
-                results.put("result",2);
+            } else {
+                results.put("result", 2);
                 response.setHeader("Content-type", "text/html;charset=UTF-8");
                 response.getWriter().append(results.toString()).flush();
 
@@ -83,6 +87,6 @@ public class JoinFind_Servlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doPost(request,response);
     }
 }

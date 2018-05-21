@@ -1,7 +1,7 @@
 package com.join.servlet.User;
 
-import com.join.bean.User;
 import com.join.dao.UserDao;
+import com.join.factory.Factory;
 import net.sf.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -12,11 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-@WebServlet(name = "SelectUserByUserId_Servlet",urlPatterns ={"/SelectUserByUserId_Servlet"} )
+/*
+通过id查找用户
+*/
+@WebServlet(name = "SelectUserByUserId_Servlet", urlPatterns = {"/SelectUserByUserId_Servlet"})
 public class SelectUserByUserId_Servlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    public SelectUserByUserId_Servlet(){
+    public SelectUserByUserId_Servlet() {
         super();
     }
 
@@ -26,32 +29,30 @@ public class SelectUserByUserId_Servlet extends HttpServlet {
         BufferedReader reader = request.getReader();
         StringBuilder stringBuilder = new StringBuilder();
         String line = null;
-        while ((line = reader.readLine())!=null){
+        while ((line = reader.readLine()) != null) {
             stringBuilder.append(line);
         }
         String req = stringBuilder.toString();
         System.out.println(req);//
         JSONObject js = JSONObject.fromObject(req);
-        UserDao userdao = new UserDao();
         String userId = js.getString("userId");
-        JSONObject getuser = userdao.getUserByUserId(Integer.parseInt(userId));
+        JSONObject getuser = Factory.getUserDAOIpmlProxy().getUserByUserId(Integer.parseInt(userId));
         System.out.println("用户id");
         System.out.println(getuser.getInt("userId"));
-        if(getuser.getInt("userId")<1){
-            getuser.put("result",0);
-        }else{
-            getuser.put("result",1);
+        if (getuser.getInt("userId") < 1) {
+            getuser.put("result", 0);
+        } else {
+            getuser.put("result", 1);
         }
         response.setHeader("Content-type", "text/html;charset=UTF-8");
         System.out.println(getuser.toString());
         response.getWriter().append(getuser.toString()).flush();
 
 
-
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doPost(request, response);
     }
 }

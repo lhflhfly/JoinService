@@ -1,6 +1,6 @@
 package com.join.dao;
 
-import com.join.bean.User;
+import com.join.vo.User;
 import com.join.util.JDBCConn;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -9,7 +9,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class UserDao {
 

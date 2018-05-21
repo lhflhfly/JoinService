@@ -1,6 +1,7 @@
 package com.join.servlet.Book;
 
-import com.join.dao.BookDao;
+
+import com.join.factory.Factory;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -30,12 +31,11 @@ public class DeleteOrderInformation_Servlet extends HttpServlet {
             stringBuilder.append(line);
         }
         String req = stringBuilder.toString();
-        System.out.println(req);//
+        System.out.println(req);
         JSONObject js = JSONObject.fromObject(req);
-        BookDao bookDao = new BookDao();
         int bookingId = Integer.parseInt(js.getString("bookingId"));
         JSONObject results = new JSONObject();
-        if(bookDao.deleteOrderInformation(bookingId)){
+        if(Factory.getBookDAOIpmlProxy().deleteOrderInformation(bookingId)){
             results.put("result",1);
             response.setHeader("Content-type", "text/html;charset=UTF-8");
             response.getWriter().append(results.toString()).flush();
@@ -49,6 +49,6 @@ public class DeleteOrderInformation_Servlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doPost(request,response);
     }
 }

@@ -1,8 +1,7 @@
 package com.join.servlet.Notice;
 
-import com.join.bean.User;
 import com.join.dao.NoticeDao;
-import com.join.dao.UserDao;
+import com.join.factory.Factory;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -33,12 +32,13 @@ public class Notice_Servlet extends HttpServlet {
         System.out.println(req);//
         JSONObject js = JSONObject.fromObject(req);
         NoticeDao noticeDao = new NoticeDao();
-        JSONArray jar = noticeDao.getNotice();
+//        JSONArray jar = noticeDao.getNotice();
+        JSONArray jar = Factory.getNoticeDAOIpmlProxy().getNotice();
         response.setHeader("Content-type", "text/html;charset=UTF-8");
         response.getWriter().append(jar.toString()).flush();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doPost(request,response);
     }
 }

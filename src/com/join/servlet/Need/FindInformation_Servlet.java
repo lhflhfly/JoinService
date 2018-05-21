@@ -1,6 +1,7 @@
 package com.join.servlet.Need;
 
 import com.join.dao.NeedDao;
+import com.join.factory.Factory;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -34,9 +35,9 @@ public class FindInformation_Servlet extends HttpServlet {
         JSONObject js = JSONObject.fromObject(req);
         int method = js.getInt("method");
         String userId = js.getString("userId");
-        NeedDao needDao = new NeedDao();
         if (method == 1) {
-            JSONArray getfindinformation = needDao.getFindInformationByUserId();
+//            JSONArray getfindinformation = needDao.getFindInformationByUserId();
+            JSONArray getfindinformation = Factory.getNeedDAOIpmlProxy().getFindInformationByUserId();
             System.out.println("用");
             if (getfindinformation.size() == 0) {
                 String res = null;
@@ -49,7 +50,8 @@ public class FindInformation_Servlet extends HttpServlet {
                 System.out.printf(res);
             }
         } else if (method == 2) {
-            JSONArray getfindinformation = needDao.getJoinedNeedByUserId(Integer.parseInt(userId));
+//            JSONArray getfindinformation = needDao.getJoinedNeedByUserId(Integer.parseInt(userId));
+            JSONArray getfindinformation = Factory.getNeedDAOIpmlProxy().getJoinedNeedByUserId(Integer.parseInt(userId));
             if (getfindinformation.size() == 0) {
                 String res = null;
                 response.setHeader("Content-type", "text/html;charset=UTF-8");
@@ -66,6 +68,6 @@ public class FindInformation_Servlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doPost(request,response);
     }
 }

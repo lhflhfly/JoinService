@@ -1,8 +1,7 @@
 package com.join.servlet.Need;
 
-import com.join.bean.Book;
-import com.join.bean.Need;
-import com.join.dao.BookDao;
+import com.join.factory.Factory;
+import com.join.vo.Need;
 import com.join.dao.NeedDao;
 import net.sf.json.JSONObject;
 
@@ -43,7 +42,8 @@ public class InsertNeed_Servlet extends HttpServlet {
         need.setSporttype(js.getString("stadiumtype"));
         System.out.println("------------------------>7");
         JSONObject results = new JSONObject();
-            boolean insert = needDao.insertNeed(need);
+//            boolean insert = needDao.insertNeed(need);
+        boolean insert = Factory.getNeedDAOIpmlProxy().insertNeed(need);
 
             if(insert){
                 results.put("result",1);
@@ -55,6 +55,6 @@ public class InsertNeed_Servlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doPost(request,response);
     }
 }

@@ -1,6 +1,7 @@
 package com.join.servlet.Evaluate;
 
 import com.join.dao.EvaluateDao;
+import com.join.factory.Factory;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -37,13 +38,18 @@ public class EvaluateStadium_Servlet extends HttpServlet {
         System.out.println("------------>"+grade);
         String bookingId = js.getString("bookingId");
         String content = js.getString("content");
+        String userId = js.getString("userId");
         EvaluateDao evaluateDao = new EvaluateDao();
         JSONObject results = new JSONObject();
-        boolean insert = evaluateDao.evaluateStadium(Integer.parseInt(stadiumId),Double.valueOf(grade),Integer.parseInt(bookingId),content);
+//        boolean insert = evaluateDao.evaluateStadium(Integer.parseInt(stadiumId),Double.valueOf(grade),Integer.parseInt(bookingId),content);
+        boolean insert = Factory.getEvaluateDAOIpmlProxy().evaluateStadium(Integer.parseInt(stadiumId),Double.valueOf(grade),Integer.parseInt(bookingId),content,Integer.parseInt(userId));
         if(insert){
-            evaluateDao.updateBookingEvaluate(Integer.parseInt(bookingId));
-            Double f = evaluateDao.getEvaluateRating(Integer.parseInt(stadiumId));
-            evaluateDao.updateStadiumGrade(Integer.parseInt(stadiumId),f);
+//            evaluateDao.updateBookingEvaluate(Integer.parseInt(bookingId));
+            Factory.getEvaluateDAOIpmlProxy().updateBookingEvaluate(Integer.parseInt(bookingId));
+            Double f = Factory.getEvaluateDAOIpmlProxy().getEvaluateRating(Integer.parseInt(stadiumId));
+//            evaluateDao.getEvaluateRating(Integer.parseInt(stadiumId));
+//            evaluateDao.updateStadiumGrade(Integer.parseInt(stadiumId),f);
+            Factory.getEvaluateDAOIpmlProxy().updateStadiumGrade(Integer.parseInt(stadiumId),f);
             results.put("result",1);
         }
         System.out.println("即将发送给客户端的是:"+results.toString());
@@ -54,6 +60,6 @@ public class EvaluateStadium_Servlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doPost(request,response);
     }
 }

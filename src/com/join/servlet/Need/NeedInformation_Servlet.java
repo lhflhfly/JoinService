@@ -2,6 +2,7 @@ package com.join.servlet.Need;
 
 import com.join.dao.BookDao;
 import com.join.dao.NeedDao;
+import com.join.factory.Factory;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -35,7 +36,8 @@ public class NeedInformation_Servlet extends HttpServlet {
         JSONObject js = JSONObject.fromObject(req);
         NeedDao needDao = new NeedDao();
         String userId = js.getString("userId");
-        JSONArray getneedinformation = needDao.getNeedInformationByUserId(userId);
+//        JSONArray getneedinformation = needDao.getNeedInformationByUserId(userId);
+        JSONArray getneedinformation = Factory.getNeedDAOIpmlProxy().getNeedInformationByUserId(userId);
         System.out.println("用");
         if(getneedinformation.size()==0){
             String res =null;
@@ -51,6 +53,7 @@ public class NeedInformation_Servlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doPost(request,response);
 
     }
 }

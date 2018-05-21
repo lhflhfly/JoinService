@@ -2,6 +2,7 @@ package com.join.servlet.Collect;
 
 import com.join.dao.CollectDao;
 import com.join.dao.StadiumDao;
+import com.join.factory.Factory;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -35,7 +36,8 @@ public class SearchCollectStadium_Servlet extends HttpServlet {
         JSONObject js = JSONObject.fromObject(req);
         CollectDao collectDao = new CollectDao();
         String userId = js.getString("userId");
-        JSONArray getstadium = collectDao.getCollectStdaiumByUserId(Integer.parseInt(userId));
+//        JSONArray getstadium = collectDao.getCollectStdaiumByUserId(Integer.parseInt(userId));
+        JSONArray getstadium = Factory.getCollectDAOIpmlProxy().getCollectStdaiumByUserId(Integer.parseInt(userId));
         System.out.println("用");
         if(getstadium.size()==0){
             String res =null;
@@ -51,6 +53,6 @@ public class SearchCollectStadium_Servlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doPost(request,response);
     }
 }

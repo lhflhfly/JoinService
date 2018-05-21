@@ -1,6 +1,7 @@
 package com.join.servlet.Collect;
 
 import com.join.dao.CollectDao;
+import com.join.factory.Factory;
 import net.sf.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -28,7 +29,8 @@ public class IsCollected_Servlet extends HttpServlet {
         String userId = js.getString("userId");
         CollectDao collectDao = new CollectDao();
         JSONObject results = new JSONObject();
-        boolean iscollected = collectDao.isCollected(Integer.parseInt(stadiumId), Integer.parseInt(userId));
+//        boolean iscollected = collectDao.isCollected(Integer.parseInt(stadiumId), Integer.parseInt(userId));
+        boolean iscollected = Factory.getCollectDAOIpmlProxy().isCollected(Integer.parseInt(stadiumId), Integer.parseInt(userId));
         if (iscollected) {
             results.put("result", 1);
         }else{
@@ -41,6 +43,6 @@ public class IsCollected_Servlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doPost(request,response);
     }
 }

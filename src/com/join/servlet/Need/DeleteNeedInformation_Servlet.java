@@ -2,6 +2,7 @@ package com.join.servlet.Need;
 
 import com.join.dao.BookDao;
 import com.join.dao.NeedDao;
+import com.join.factory.Factory;
 import net.sf.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -32,10 +33,9 @@ public class DeleteNeedInformation_Servlet extends HttpServlet {
         String req = stringBuilder.toString();
         System.out.println(req);//
         JSONObject js = JSONObject.fromObject(req);
-        NeedDao needDao = new NeedDao();
         int needId = Integer.parseInt(js.getString("needId"));
         JSONObject results = new JSONObject();
-        if(needDao.deleteNeedrInformation(needId)){
+        if(Factory.getNeedDAOIpmlProxy().deleteNeedrInformation(needId)){
             results.put("result",1);
             response.setHeader("Content-type", "text/html;charset=UTF-8");
             response.getWriter().append(results.toString()).flush();
@@ -49,6 +49,6 @@ public class DeleteNeedInformation_Servlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doPost(request,response);
     }
 }

@@ -1,7 +1,8 @@
 package com.join.servlet.User;
 
-import com.join.bean.User;
+import com.join.vo.User;
 import com.join.dao.UserDao;
+import com.join.factory.Factory;
 import net.sf.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -11,12 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
-
-@WebServlet(name = "UpdateUser_Servlet",urlPatterns ={"/UpdateUser_Servlet"} )
+/*
+修改用户信息
+*/
+@WebServlet(name = "UpdateUser_Servlet", urlPatterns = {"/UpdateUser_Servlet"})
 public class UpdateUser_Servlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    public UpdateUser_Servlet(){
+    public UpdateUser_Servlet() {
         super();
     }
 
@@ -26,7 +29,7 @@ public class UpdateUser_Servlet extends HttpServlet {
         BufferedReader reader = request.getReader();
         StringBuilder stringBuilder = new StringBuilder();
         String line = null;
-        while ((line = reader.readLine())!=null){
+        while ((line = reader.readLine()) != null) {
             stringBuilder.append(line);
         }
         String req = stringBuilder.toString();
@@ -34,42 +37,45 @@ public class UpdateUser_Servlet extends HttpServlet {
         JSONObject js = JSONObject.fromObject(req);
         UserDao userdao = new UserDao();
         User user = new User();
-        String userId =js.getString("userId");
+        String userId = js.getString("userId");
         String lastname = js.getString("lastname");
         user.setUsername(js.getString("username"));
         user.setRealname(js.getString("realname"));
         user.setSex(js.getString("sex"));
         user.setTel(js.getString("tel"));
         JSONObject results = new JSONObject();
-        if(user.getUsername().equals(lastname)){
-            boolean update = userdao.updateUser(user,Integer.parseInt(userId));
-            if (update){
-                results = userdao.getUserByUsername(user);
-                results.put("result",1);
-            }else{
-                results.put("result",2);
-            } }
-        else if(userdao.isRepeatUser(user.getUsername())){
-            boolean update = userdao.updateUser(user,Integer.parseInt(userId));
-            if (update){
-                results = userdao.getUserByUsername(user);
-                results.put("result",1);
-            }else{
-                results.put("result",2);
+        if (user.getUsername().equals(lastname)) {
+//            boolean update = userdao.updateUser(user,Integer.parseInt(userId));
+            boolean update = Factory.getUserDAOIpmlProxy().updateUser(user, Integer.parseInt(userId));
+            if (update) {
+//                results = userdao.getUserByUsername(user);
+                results = Factory.getUserDAOIpmlProxy().getUserByUsername(user);
+                results.put("result", 1);
+            } else {
+                results.put("result", 2);
             }
-        }else{
-            results.put("result",0);
+        } else if (Factory.getUserDAOIpmlProxy().isRepeatUser(user.getUsername())) {
+//            boolean update = userdao.updateUser(user, Integer.parseInt(userId));
+            boolean update = Factory.getUserDAOIpmlProxy().updateUser(user,Integer.parseInt(userId));
+            if (update) {
+//                results = userdao.getUserByUsername(user);
+                results = Factory.getUserDAOIpmlProxy().getUserByUsername(user);
+                results.put("result", 1);
+            } else {
+                results.put("result", 2);
+            }
+        } else {
+            results.put("result", 0);
         }
 
         response.setHeader("Content-type", "text/html;charset=UTF-8");
         response.getWriter().append(results.toString()).flush();
 
 
-
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doPost(request,response);
     }
 }
