@@ -29,7 +29,7 @@ public class StadiumDAOImpl implements IStadiumDao {
                 js =new JSONObject();
                 js.put("stadiumId",rs.getInt("stadiumId"));
                 js.put("stadiumname",rs.getString("stadiumname"));
-                js.put("stadiumtypeId",rs.getString("stadiumtypeId"));
+                js.put("stadiumtypename",rs.getString("stadiumtypename"));
                 js.put("area",rs.getString("area"));
                 js.put("num",rs.getString("num"));
                 js.put("indoor",rs.getInt("indoor"));

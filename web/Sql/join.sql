@@ -11,7 +11,7 @@
  Target Server Version : 50721
  File Encoding         : 65001
 
- Date: 07/05/2018 22:41:14
+ Date: 23/05/2018 14:19:04
 */
 
 SET NAMES utf8mb4;
@@ -25,7 +25,7 @@ CREATE TABLE `booking`  (
   `BookingId` int(10) NOT NULL AUTO_INCREMENT,
   `StadiumId` int(10) NULL DEFAULT NULL,
   `UserId` int(10) NULL DEFAULT NULL,
-  `PlaceId` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `PlaceId` int(10) NULL DEFAULT NULL,
   `Time` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `OrderTime` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `Tel` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
@@ -36,17 +36,42 @@ CREATE TABLE `booking`  (
   INDEX `userId_book`(`UserId`) USING BTREE,
   CONSTRAINT `stadiumId_book` FOREIGN KEY (`StadiumId`) REFERENCES `stadium` (`stadiumId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `userId_book` FOREIGN KEY (`UserId`) REFERENCES `user` (`userId`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of booking
 -- ----------------------------
-INSERT INTO `booking` VALUES (2, 2, 10, '场地1', '2018年4月23日', '2018年4月26日20:12', '18728452246', 0, 0);
-INSERT INTO `booking` VALUES (3, 1, 4, '场地1', '2018年5月2日', '2018年5月3日12:50', '123456', 1, 1);
-INSERT INTO `booking` VALUES (4, 2, 4, '场地1', '2018年5月3日', '2018年5月3日16:13', '123456', 0, 0);
-INSERT INTO `booking` VALUES (5, 2, 4, '场地2', '2018年5月4日', '2018年5月4日22:31', '123456', 1, 0);
-INSERT INTO `booking` VALUES (6, 2, 4, '场地2', '2018年5月4日', '2018年5月7日0:37', '123456', 1, 1);
-INSERT INTO `booking` VALUES (7, 1, 4, '场地2', '2018年5月4日', '2018年5月7日14:41', '123456', 1, 1);
+INSERT INTO `booking` VALUES (11, 1, 4, 1, '2018年5月8日', '2018年5月8日13:00--14:00', '123456', 1, 1);
+INSERT INTO `booking` VALUES (12, 1, 4, 1, '2018年5月8日', '2018年5月10日21:00--22:00', '123456', 0, 1);
+INSERT INTO `booking` VALUES (13, 2, 4, 4, '2018年5月20日', '2018年5月20日20:00--21:00', '123456', 1, 0);
+INSERT INTO `booking` VALUES (14, 1, 13, 2, '2018年5月21日', '2018年5月21日11:00--12:00', '13456789111', 1, 1);
+INSERT INTO `booking` VALUES (15, 2, 13, 4, '2018年5月21日', '2018年5月21日19:00--20:00', '13456789111', 0, 0);
+INSERT INTO `booking` VALUES (16, 1, 13, 1, '2018年5月21日', '2018年5月21日19:00--20:00', '13456789111', 0, 0);
+
+-- ----------------------------
+-- Table structure for city
+-- ----------------------------
+DROP TABLE IF EXISTS `city`;
+CREATE TABLE `city`  (
+  `cityId` int(11) NOT NULL AUTO_INCREMENT,
+  `cityname` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`cityId`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of city
+-- ----------------------------
+INSERT INTO `city` VALUES (1, '北京市');
+INSERT INTO `city` VALUES (2, '上海市');
+INSERT INTO `city` VALUES (3, '广州市');
+INSERT INTO `city` VALUES (4, '成都市');
+INSERT INTO `city` VALUES (5, '重庆市');
+INSERT INTO `city` VALUES (6, '天津市');
+INSERT INTO `city` VALUES (7, '西安市');
+INSERT INTO `city` VALUES (8, '武汉市');
+INSERT INTO `city` VALUES (9, '南京市');
+INSERT INTO `city` VALUES (10, '苏州市');
+INSERT INTO `city` VALUES (11, '深圳市');
 
 -- ----------------------------
 -- Table structure for collect
@@ -57,13 +82,15 @@ CREATE TABLE `collect`  (
   `stadiumId` int(11) NULL DEFAULT NULL,
   `userId` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`collectId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of collect
 -- ----------------------------
 INSERT INTO `collect` VALUES (1, 1, 1);
 INSERT INTO `collect` VALUES (2, 2, 1);
+INSERT INTO `collect` VALUES (5, 1, 13);
+INSERT INTO `collect` VALUES (7, 4, 4);
 
 -- ----------------------------
 -- Table structure for evaluation
@@ -75,16 +102,19 @@ CREATE TABLE `evaluation`  (
   `grade` double(10, 1) NULL DEFAULT NULL,
   `bookingId` int(11) NULL DEFAULT NULL,
   `content` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `userId` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`EvaluationId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of evaluation
 -- ----------------------------
-INSERT INTO `evaluation` VALUES (18, 1, 3.0, 7, 'asdasdasd');
-INSERT INTO `evaluation` VALUES (19, 2, 2.5, 6, '啦咯啦咯啦咯');
-INSERT INTO `evaluation` VALUES (20, 2, 5.0, 5, 'asdasd');
-INSERT INTO `evaluation` VALUES (21, 1, 5.0, 3, 'qweq');
+INSERT INTO `evaluation` VALUES (1, 1, 1.0, 1, 'aasddaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadsadsadadadadadadadasdsadasdasdas', 4);
+INSERT INTO `evaluation` VALUES (22, 1, 3.0, 2, 'sdasdasdasdasdasdasdasdasdas', 10);
+INSERT INTO `evaluation` VALUES (23, 1, 4.0, 3, 'ASDASDASDASDASDASDASDASDASDASDASDASDASD', 3);
+INSERT INTO `evaluation` VALUES (24, 1, 2.0, 3, '你是 撒大家按时打卡速度撒大苏打加拉撒大苏打手动阀手动阀士大夫', 11);
+INSERT INTO `evaluation` VALUES (28, 1, 5.0, 11, 'asdasdasdasdasdasdasdasdasdasdasdasdasdasdasd', 4);
+INSERT INTO `evaluation` VALUES (29, 1, 3.5, 14, 'asd', 13);
 
 -- ----------------------------
 -- Table structure for joining
@@ -95,7 +125,7 @@ CREATE TABLE `joining`  (
   `needId` int(11) NULL DEFAULT NULL,
   `userId` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`joinId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of joining
@@ -105,6 +135,9 @@ INSERT INTO `joining` VALUES (13, 4, 2);
 INSERT INTO `joining` VALUES (14, 4, 10);
 INSERT INTO `joining` VALUES (15, 5, 10);
 INSERT INTO `joining` VALUES (16, 3, 10);
+INSERT INTO `joining` VALUES (18, 8, 13);
+INSERT INTO `joining` VALUES (19, 11, 4);
+INSERT INTO `joining` VALUES (20, 11, 6);
 
 -- ----------------------------
 -- Table structure for management
@@ -125,13 +158,13 @@ CREATE TABLE `need`  (
   `NeedId` int(10) NOT NULL AUTO_INCREMENT,
   `StadiumId` int(10) NULL DEFAULT NULL,
   `UserId` int(10) NULL DEFAULT NULL,
-  `Time` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `Time` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `num_people` int(10) NULL DEFAULT NULL,
   `Remark` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `sportstypeId` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `num_join` int(10) NULL DEFAULT 0,
   PRIMARY KEY (`NeedId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of need
@@ -141,6 +174,9 @@ INSERT INTO `need` VALUES (4, 2, 3, '2018年4月24日8:40', 5, 'asd', '足球', 
 INSERT INTO `need` VALUES (5, 2, 4, '2018年4月25日13:40', 11, '男女不限', '足球', 1);
 INSERT INTO `need` VALUES (6, 3, 10, '2018年4月24日9:50', 20, '', '健身', 0);
 INSERT INTO `need` VALUES (7, 2, 4, '2018年5月4日12:50', 7, '没啥要求', '足球', 0);
+INSERT INTO `need` VALUES (8, 1, 11, '2018年5月8日11:00--12:00', 6, 'hhhh', '篮球', 1);
+INSERT INTO `need` VALUES (9, 1, 13, '2018年5月22日12:00--13:00', 3, '没啥', '篮球', 0);
+INSERT INTO `need` VALUES (11, 1, 13, '2018年5月21日20:00--21:00', 6, '', '篮球', 2);
 
 -- ----------------------------
 -- Table structure for notice
@@ -222,7 +258,7 @@ DROP TABLE IF EXISTS `stadium`;
 CREATE TABLE `stadium`  (
   `stadiumId` int(11) NOT NULL AUTO_INCREMENT,
   `stadiumname` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `stadiumtypeId` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `stadiumtypename` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `area` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `num` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `indoor` tinyint(1) NULL DEFAULT NULL,
@@ -233,23 +269,24 @@ CREATE TABLE `stadium`  (
   `opentime` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `grade` double(255, 1) NULL DEFAULT 0.0,
   `closetime` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `iconnum` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`stadiumId`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of stadium
 -- ----------------------------
-INSERT INTO `stadium` VALUES (1, '红区体育馆', '篮球', '10', '200', 1, 1, '成都市', 'a.png', '高新西区百叶路1号', '9', 4.0, '21');
-INSERT INTO `stadium` VALUES (2, '蓝区体育场', '足球', '10', '1000', 0, 0, '成都市', 'b.png', '高新西区百叶路2号', '9', 3.8, '21');
-INSERT INTO `stadium` VALUES (3, '健身俱乐部', '健身', '10', '100', 1, 1, '成都市', 'd.png', '高新西区百叶路3号', '7', 0.0, '21');
-INSERT INTO `stadium` VALUES (4, '羽毛球场', '羽毛球', '20', '50', 1, 1, '成都市', 'c.png', '高新西区百叶路4号', '9', 0.0, '21');
-INSERT INTO `stadium` VALUES (5, '国腾高尔夫球场', '高尔夫', '30', '100', 0, 0, '成都市', 'e.png', '高新西区百叶路5号', '9', 0.0, '21');
-INSERT INTO `stadium` VALUES (6, '蓝区游泳池', '游泳', '20', '50', 0, 0, '成都市', 'f.png', '高新西区百叶路1号', '9', 0.0, '21');
-INSERT INTO `stadium` VALUES (7, '射箭场馆', '射箭', '20', '20', 1, 1, '成都市', 'g.png', '高新西区百叶路2号', '9', 0.0, '21');
-INSERT INTO `stadium` VALUES (8, '蓝区网球场', '网球', '20', '20', 0, 0, '成都市', 'h.png', '高新西区百叶路1号', '9', 0.0, '21');
-INSERT INTO `stadium` VALUES (9, '网球场', '网球', '20', '20', 0, 0, '北京市', 'h.png', '朝阳区北京路2号', '9', 0.0, '21');
-INSERT INTO `stadium` VALUES (10, '高尔夫球场', '高尔夫', '30', '100', 0, 0, '北京市', 'e.png', '东城区百叶路5号', '9', 0.0, '21');
-INSERT INTO `stadium` VALUES (11, '射箭场馆', '射箭', '20', '20', 1, 1, '北京市', 'g.png', '西城区百叶路2号', '9', 0.0, '21');
+INSERT INTO `stadium` VALUES (1, '红区体育馆', '篮球', '10', '200', 1, 1, '成都市', 'a.png', '高新西区百叶路1号', '9', 3.1, '21', 3);
+INSERT INTO `stadium` VALUES (2, '蓝区体育场', '足球', '10', '1000', 0, 0, '成都市', 'b.png', '高新西区百叶路2号', '9', 3.8, '21', 2);
+INSERT INTO `stadium` VALUES (3, '健身俱乐部', '健身', '10', '100', 1, 1, '成都市', 'd.png', '高新西区百叶路3号', '7', 0.0, '21', 3);
+INSERT INTO `stadium` VALUES (4, '羽毛球场', '羽毛球', '20', '50', 1, 1, '成都市', 'c.png', '高新西区百叶路4号', '9', 0.0, '21', 3);
+INSERT INTO `stadium` VALUES (5, '国腾高尔夫球场', '高尔夫', '30', '100', 0, 0, '成都市', 'e.png', '高新西区百叶路5号', '9', 0.0, '21', 2);
+INSERT INTO `stadium` VALUES (6, '蓝区游泳池', '游泳', '20', '50', 0, 0, '成都市', 'f.png', '高新西区百叶路1号', '9', 0.0, '21', 3);
+INSERT INTO `stadium` VALUES (7, '射箭场馆', '射箭', '20', '20', 1, 1, '成都市', 'g.png', '高新西区百叶路2号', '9', 0.0, '21', 2);
+INSERT INTO `stadium` VALUES (8, '蓝区网球场', '网球', '20', '20', 0, 0, '成都市', 'h.png', '高新西区百叶路1号', '9', 0.0, '21', 3);
+INSERT INTO `stadium` VALUES (9, '网球场', '网球', '20', '20', 0, 0, '北京市', 'h.png', '朝阳区北京路2号', '9', 0.0, '21', 2);
+INSERT INTO `stadium` VALUES (10, '高尔夫球场', '高尔夫', '30', '100', 0, 0, '北京市', 'e.png', '东城区百叶路5号', '9', 0.0, '21', 4);
+INSERT INTO `stadium` VALUES (11, '射箭场馆', '射箭', '20', '20', 1, 1, '北京市', 'g.png', '西城区百叶路2号', '9', 0.0, '21', 3);
 
 -- ----------------------------
 -- Table structure for stadiumevaluation
@@ -265,22 +302,51 @@ CREATE TABLE `stadiumevaluation`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Table structure for stadiumicon
+-- ----------------------------
+DROP TABLE IF EXISTS `stadiumicon`;
+CREATE TABLE `stadiumicon`  (
+  `iconId` int(11) NOT NULL AUTO_INCREMENT,
+  `stadiumId` int(11) NULL DEFAULT NULL,
+  `icon` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`iconId`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of stadiumicon
+-- ----------------------------
+INSERT INTO `stadiumicon` VALUES (1, 1, 'a.png');
+INSERT INTO `stadiumicon` VALUES (2, 1, 'b.png');
+INSERT INTO `stadiumicon` VALUES (3, 1, 'c.png');
+INSERT INTO `stadiumicon` VALUES (4, 2, 'e.png');
+INSERT INTO `stadiumicon` VALUES (5, 2, 'f.png');
+
+-- ----------------------------
 -- Table structure for stadiumtype
 -- ----------------------------
 DROP TABLE IF EXISTS `stadiumtype`;
 CREATE TABLE `stadiumtype`  (
-  `StadiumtypeId` int(3) NOT NULL AUTO_INCREMENT,
-  `Stadiumtypename` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`StadiumtypeId`) USING BTREE,
-  INDEX `StadiumtypeId`(`StadiumtypeId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+  `SportstypeId` int(3) NOT NULL AUTO_INCREMENT,
+  `Sportstypename` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `Sportsicon` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`SportstypeId`) USING BTREE,
+  INDEX `StadiumtypeId`(`SportstypeId`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of stadiumtype
 -- ----------------------------
-INSERT INTO `stadiumtype` VALUES (1, '羽毛球');
-INSERT INTO `stadiumtype` VALUES (2, '足球');
-INSERT INTO `stadiumtype` VALUES (3, '健身');
+INSERT INTO `stadiumtype` VALUES (1, '篮球', 'basketball.png');
+INSERT INTO `stadiumtype` VALUES (2, '高尔夫', 'golf.png');
+INSERT INTO `stadiumtype` VALUES (3, '足球', 'zuqiu.png');
+INSERT INTO `stadiumtype` VALUES (4, '网球', 'tennis.png');
+INSERT INTO `stadiumtype` VALUES (5, '游泳', 'swimming.png');
+INSERT INTO `stadiumtype` VALUES (6, '羽毛球', 'yumao.png');
+INSERT INTO `stadiumtype` VALUES (7, '健身', 'exercise.png');
+INSERT INTO `stadiumtype` VALUES (8, '射箭', 'archer2.png');
+INSERT INTO `stadiumtype` VALUES (9, '滑冰', 'skating.png');
+INSERT INTO `stadiumtype` VALUES (10, '保龄球', 'bowling.png');
+INSERT INTO `stadiumtype` VALUES (11, '乒乓球', 'pingpong.png');
 
 -- ----------------------------
 -- Table structure for sysdiagrams
@@ -313,26 +379,36 @@ CREATE TABLE `user`  (
   `myright` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `proflie` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`userId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES (2, 'jack', '1234', 'jacket', '女', '13087654321', 'user_normal', NULL);
 INSERT INTO `user` VALUES (3, 'me', '123', 'jacket', '女', '13087654321', '管理员', '192168001106168.jpg');
-INSERT INTO `user` VALUES (4, 'asd', '1234', 'asd', '男', '123456', '普通用户', '192168001106827.jpg');
+INSERT INTO `user` VALUES (4, 'asd', '1234', 'asd', '男', '123456', '普通用户', '192168001106655.jpg');
 INSERT INTO `user` VALUES (5, 'qqq', '121212', 'rrr', '男', '112121212', '普通用户', NULL);
 INSERT INTO `user` VALUES (6, 'liu', 'bm123123', 'eeq', '男', '13551212893', '普通用户', NULL);
 INSERT INTO `user` VALUES (7, 'fly', '111', '梁鸿飞', '男', '18349261903', '普通用户', NULL);
 INSERT INTO `user` VALUES (8, 'qq', 'qq', 'qqq', '男', '13551355624', '场馆用户', NULL);
 INSERT INTO `user` VALUES (9, 'l', 'qqqqq', 'qq', '男', 'www', '普通用户', NULL);
 INSERT INTO `user` VALUES (10, 'taotao', '123456789', 'lin', '男', '18728452246', '普通用户', '192168001106844.jpg');
+INSERT INTO `user` VALUES (11, 'shuai', '123456', '宋帅帅', '男', '15708444444', '普通用户', '192168001106922.jpg');
+INSERT INTO `user` VALUES (12, 'aaaa', '12345678', 'ggg', '男', '12355558855', '普通用户', NULL);
+INSERT INTO `user` VALUES (13, 'test', '123456', 'test', '男', '13456789111', '普通用户', '192168001106877.png');
+INSERT INTO `user` VALUES (14, 'aaa', '1234', 'asd', '男', '136222221', '普通用户', NULL);
 
 -- ----------------------------
 -- View structure for booklist
 -- ----------------------------
 DROP VIEW IF EXISTS `booklist`;
-CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`localhost` SQL SECURITY DEFINER VIEW `booklist` AS select `booking`.`BookingId` AS `BookingId`,`booking`.`UserId` AS `UserId`,`stadium`.`stadiumname` AS `stadiumname`,`booking`.`StadiumId` AS `stadiumId`,`stadium`.`mainpicture` AS `mainpicture`,`booking`.`PlaceId` AS `PlaceId`,`booking`.`Time` AS `Time`,`booking`.`OrderTime` AS `OrderTime`,`booking`.`Used` AS `Used`,`booking`.`Evaluate` AS `Evaluate` from (`stadium` join `booking`) where (`stadium`.`stadiumId` = `booking`.`StadiumId`);
+CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`localhost` SQL SECURITY DEFINER VIEW `booklist` AS select `booking`.`BookingId` AS `BookingId`,`booking`.`UserId` AS `UserId`,`stadium`.`stadiumname` AS `stadiumname`,`booking`.`StadiumId` AS `stadiumId`,`stadium`.`mainpicture` AS `mainpicture`,`place`.`PlaceName` AS `Placename`,`booking`.`Time` AS `Time`,`booking`.`OrderTime` AS `OrderTime`,`booking`.`Used` AS `Used`,`booking`.`Evaluate` AS `Evaluate` from ((`booking` join `stadium`) join `place`) where ((`stadium`.`stadiumId` = `booking`.`StadiumId`) and (`place`.`PlaceId` = `booking`.`PlaceId`));
+
+-- ----------------------------
+-- View structure for evaluationlist
+-- ----------------------------
+DROP VIEW IF EXISTS `evaluationlist`;
+CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`localhost` SQL SECURITY DEFINER VIEW `evaluationlist` AS select `evaluation`.`EvaluationId` AS `EvaluationId`,`evaluation`.`StadiumId` AS `StadiumId`,`user`.`username` AS `username`,`user`.`proflie` AS `proflie`,`evaluation`.`content` AS `content`,`evaluation`.`grade` AS `grade` from (`evaluation` join `user`) where (`evaluation`.`userId` = `user`.`userId`);
 
 -- ----------------------------
 -- View structure for needlist

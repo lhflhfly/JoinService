@@ -84,4 +84,10 @@ public class NeedDAOImplProxy implements INeedDao {
         boolean flag = needDAOImpl.deleteJoinedNeed(userId,needId);
         return  flag;
     }
+
+    @Override
+    public JSONArray getJoinedUserByneedId(int needId) {
+        JSONArray jsonArray = needDAOImpl.getJoinedUserByneedId(needId);
+        return  jsonArray;
+    }
 }

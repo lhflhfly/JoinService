@@ -16,5 +16,5 @@ public interface INeedDao {
     public boolean isJoined(int userId,int needId);
     public JSONArray getJoinedNeedByUserId(int userId);
     public boolean deleteJoinedNeed(int userId,int needId);
-
+    public JSONArray getJoinedUserByneedId(int needId);
 }

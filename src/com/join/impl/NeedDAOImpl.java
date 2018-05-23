@@ -351,4 +351,34 @@ public class NeedDAOImpl implements INeedDao {
         }
         return flag;
     }
+
+    @Override
+    public JSONArray getJoinedUserByneedId(int needId) {
+        JSONArray jar = new JSONArray();
+        JSONObject js;
+        String sql = "SELECT username,sex,tel,proflie FROM user WHERE userId IN (SELECT userId FROM joining WHERE needId=?)";
+        try {
+            statement = (PreparedStatement) conn.prepareStatement(sql);
+            statement.setInt(1, needId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                js = new JSONObject();
+                js.put("username", rs.getString("username"));
+                js.put("sex", rs.getString("sex"));
+                js.put("tel", rs.getString("tel"));
+                js.put("userproflie", rs.getString("proflie"));
+                jar.add(js);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return jar;
+    }
 }

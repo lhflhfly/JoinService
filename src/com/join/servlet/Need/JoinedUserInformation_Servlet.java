@@ -1,6 +1,6 @@
-package com.join.servlet.Evaluate;
+package com.join.servlet.Need;
 
-import com.join.dao.EvaluateDao;
+import com.join.dao.NeedDao;
 import com.join.factory.Factory;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -13,11 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-@WebServlet(name = "GetEvaluateInformation_Servlet", urlPatterns = {"/GetEvaluateInformation_Servlet"})
-public class GetEvaluateInformation_Servlet extends HttpServlet {
+@WebServlet(name = "JoinedUserInformation_Servlet",urlPatterns ={"/JoinedUserInformation_Servlet"} )
+public class JoinedUserInformation_Servlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    public GetEvaluateInformation_Servlet() {
+    public JoinedUserInformation_Servlet(){
         super();
     }
 
@@ -27,22 +27,22 @@ public class GetEvaluateInformation_Servlet extends HttpServlet {
         BufferedReader reader = request.getReader();
         StringBuilder stringBuilder = new StringBuilder();
         String line = null;
-        while ((line = reader.readLine()) != null) {
+        while ((line = reader.readLine())!=null){
             stringBuilder.append(line);
         }
         String req = stringBuilder.toString();
         System.out.println(req);//
         JSONObject js = JSONObject.fromObject(req);
-//        EvaluateDao evaluateDao = new EvaluateDao();
-        String stadiumId = js.getString("stadiumId");
-        JSONArray getorderinformation = Factory.getEvaluateDAOIpmlProxy().getEvaluatedInformationByStadiumId(Integer.parseInt(stadiumId));
+        NeedDao needDao = new NeedDao();
+        String needId = js.getString("needId");
+        JSONArray getneedinformation = Factory.getNeedDAOIpmlProxy().getJoinedUserByneedId(Integer.parseInt(needId));
         System.out.println("用");
-        if (getorderinformation.size() == 0) {
-            String res = null;
+        if(getneedinformation.size()==0){
+            String res =null;
             response.setHeader("Content-type", "text/html;charset=UTF-8");
             response.getWriter().append(res).flush();
-        } else {
-            String res = getorderinformation.toString();
+        }else {
+            String res = getneedinformation.toString();
             response.setHeader("Content-type", "text/html;charset=UTF-8");
             response.getWriter().append(res).flush();
             System.out.printf(res);
@@ -51,6 +51,7 @@ public class GetEvaluateInformation_Servlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doPost(request, response);
+        doPost(request,response);
+
     }
 }
