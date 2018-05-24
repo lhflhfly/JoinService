@@ -8,6 +8,15 @@ public class Need {
     private String remark;
     private String sporttype;
     private int num_join;
+    private String releasetime;
+
+    public String getReleasetime() {
+        return releasetime;
+    }
+
+    public void setReleasetime(String releasetime) {
+        this.releasetime = releasetime;
+    }
 
     public int getUserId() {
         return userId;

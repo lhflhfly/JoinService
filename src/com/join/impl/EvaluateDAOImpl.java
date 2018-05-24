@@ -88,9 +88,9 @@ public class EvaluateDAOImpl implements IEvaluateDao {
     }
 
     @Override
-    public boolean evaluateStadium(int stadiumId, double grade, int bookingId, String content,int userId) {
+    public boolean evaluateStadium(int stadiumId, double grade, int bookingId, String content,int userId,String evaluatetime) {
         Boolean flag = false;
-        String sql = "INSERT INTO evaluation(StadiumId,grade,bookingId,content,userId) VALUES(?,?,?,?,?)";
+        String sql = "INSERT INTO evaluation(StadiumId,grade,bookingId,content,userId,evaluatetime) VALUES(?,?,?,?,?,?)";
         try {
             statement = (PreparedStatement) conn.prepareStatement(sql);
             statement.setInt(1, stadiumId);
@@ -98,6 +98,7 @@ public class EvaluateDAOImpl implements IEvaluateDao {
             statement.setInt(3, bookingId);
             statement.setString(4, content);
             statement.setInt(5, userId);
+            statement.setString(6, evaluatetime);
             statement.executeUpdate();
             flag = true;
         } catch (SQLException e) {
@@ -215,7 +216,7 @@ public class EvaluateDAOImpl implements IEvaluateDao {
     public JSONArray getEvaluatedInformationByStadiumId(int stadiumId) {
         JSONArray jar = new JSONArray();
         JSONObject js;
-        String sql = "SELECT username,proflie,content,grade FROM evaluationlist WHERE StadiumId=?";
+        String sql = "SELECT * FROM evaluationlist WHERE StadiumId=?";
         try {
             statement = (PreparedStatement) conn.prepareStatement(sql);
             statement.setInt(1, stadiumId);
@@ -223,9 +224,44 @@ public class EvaluateDAOImpl implements IEvaluateDao {
             while (rs.next()) {
                 js = new JSONObject();
                 js.put("username", rs.getString("username"));
-                js.put("proflie", rs.getString("proflie"));
+                js.put("proflie", rs.getString("userproflie"));
                 js.put("content", rs.getString("content"));
                 js.put("grade",rs.getDouble("grade"));
+                js.put("placename", rs.getString("placename"));
+                js.put("evaluatetime", rs.getString("evaluatetime"));
+                jar.add(js);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return jar;
+    }
+
+    @Override
+    public JSONArray getAllEvaluation() {
+        JSONArray jar = new JSONArray();
+        JSONObject js;
+        String sql = "SELECT * FROM evaluationlist ";
+        try {
+            statement = (PreparedStatement) conn.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                js = new JSONObject();
+                js.put("username", rs.getString("username"));
+                js.put("proflie", rs.getString("userproflie"));
+                js.put("content", rs.getString("content"));
+                js.put("grade",rs.getDouble("grade"));
+                js.put("placename", rs.getString("placename"));
+                js.put("evaluatetime", rs.getString("evaluatetime"));
+                js.put("stadiumname", rs.getString("stadiumname"));
                 jar.add(js);
             }
 

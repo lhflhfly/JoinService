@@ -36,4 +36,34 @@ public class BookDAOImplProxy implements IBookDao {
         boolean flag = bookDAOImpl.deleteOrderInformation(bookingId);
         return  flag;
     }
+
+    @Override
+    public boolean updateBookState(int bookingId) {
+        boolean flag = bookDAOImpl.updateBookState(bookingId);
+        return  flag;
+    }
+
+    @Override
+    public JSONArray getNoUseBookInformationByUserId(int stadiumId) {
+        JSONArray jsonArray = bookDAOImpl.getNoUseBookInformationByUserId(stadiumId);
+        return  jsonArray;
+    }
+
+    @Override
+    public JSONArray getUsedBookInformationByUserId(int stadiumId) {
+        JSONArray jsonArray = bookDAOImpl.getUsedBookInformationByUserId(stadiumId);
+        return  jsonArray;
+    }
+
+    @Override
+    public JSONArray getAllNoUseBookInformation() {
+        JSONArray jsonArray = bookDAOImpl.getAllNoUseBookInformation();
+        return  jsonArray;
+    }
+
+    @Override
+    public JSONArray getAllUsedBookInformation() {
+        JSONArray jsonArray = bookDAOImpl.getAllUsedBookInformation();
+        return  jsonArray;
+    }
 }

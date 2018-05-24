@@ -17,11 +17,12 @@ public class CollectDAOImpl implements ICollectDao {
     public CollectDAOImpl(Connection conn) {
         this.conn = conn;
     }
+
     @Override
     public boolean insertCollect(int stadiumId, int userId) {
         Boolean flag = false;
         String sql = "INSERT INTO collect(stadiumId,userId) VALUES(?,?)";
-        try{
+        try {
             statement = (PreparedStatement) conn.prepareStatement(sql);
             statement.setInt(1, stadiumId);
             statement.setInt(2, userId);
@@ -30,7 +31,7 @@ public class CollectDAOImpl implements ICollectDao {
         } catch (SQLException e) {
             e.printStackTrace();
             flag = false;
-        }finally {
+        } finally {
             try {
                 statement.close();
                 conn.close();
@@ -55,7 +56,7 @@ public class CollectDAOImpl implements ICollectDao {
         } catch (SQLException e) {
             e.printStackTrace();
             flag = false;
-        }finally {
+        } finally {
             try {
                 statement.close();
                 conn.close();
@@ -68,19 +69,19 @@ public class CollectDAOImpl implements ICollectDao {
 
     @Override
     public boolean isCollected(int stadiumId, int userId) {
-        Boolean flag=true;
+        Boolean flag = true;
         String sql = "SELECT * FROM collect WHERE userId=? AND stadiumId=?";
-        try{
-            statement = (PreparedStatement)conn.prepareStatement(sql);
-            statement.setInt(1,userId);
-            statement.setInt(2,stadiumId);
+        try {
+            statement = (PreparedStatement) conn.prepareStatement(sql);
+            statement.setInt(1, userId);
+            statement.setInt(2, stadiumId);
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 flag = false;
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             try {
                 statement.close();
                 conn.close();
@@ -96,33 +97,31 @@ public class CollectDAOImpl implements ICollectDao {
         JSONArray jar = new JSONArray();
         JSONObject js;
         String sql = "SELECT * FROM  stadium WHERE stadiumId IN (SELECT stadiumId FROM collect WHERE userId=?)";
-        try{
-            statement = (PreparedStatement)conn.prepareStatement(sql);
-            statement.setInt(1,userId);
+        try {
+            statement = (PreparedStatement) conn.prepareStatement(sql);
+            statement.setInt(1, userId);
             ResultSet rs = statement.executeQuery();
-            while (rs.next()){
-                js =new JSONObject();
-                js.put("stadiumId",rs.getInt("stadiumId"));
-                js.put("stadiumname",rs.getString("stadiumname"));
-                js.put("stadiumtypename",rs.getString("stadiumtypename"));
-                js.put("area",rs.getString("area"));
-                js.put("num",rs.getString("num"));
-                js.put("indoor",rs.getInt("indoor"));
-                js.put("aircondition",rs.getInt("aircondition"));
-                js.put("city",rs.getString("city"));
-                js.put("mainpicture",rs.getString("mainpicture"));
-                js.put("adress",rs.getString("adress"));
-                js.put("opentime",rs.getString("opentime"));
-                js.put("closetime",rs.getString("closetime"));
-                js.put("grade",rs.getDouble("grade"));
-                js.put("iconnum",rs.getInt("iconnum"));
+            while (rs.next()) {
+                js = new JSONObject();
+                js.put("stadiumId", rs.getInt("stadiumId"));
+                js.put("stadiumname", rs.getString("stadiumname"));
+                js.put("stadiumtypename", rs.getString("stadiumtypename"));
+                js.put("area", rs.getString("area"));
+                js.put("num", rs.getString("num"));
+                js.put("indoor", rs.getInt("indoor"));
+                js.put("aircondition", rs.getInt("aircondition"));
+                js.put("city", rs.getString("city"));
+                js.put("mainpicture", rs.getString("mainpicture"));
+                js.put("adress", rs.getString("adress"));
+                js.put("opentime", rs.getString("opentime"));
+                js.put("closetime", rs.getString("closetime"));
+                js.put("grade", rs.getDouble("grade"));
+                js.put("iconnum", rs.getInt("iconnum"));
                 jar.add(js);
-
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             try {
                 statement.close();
                 conn.close();

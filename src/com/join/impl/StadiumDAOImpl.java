@@ -62,7 +62,7 @@ public class StadiumDAOImpl implements IStadiumDao {
     public JSONArray getStdaiumByName(String stadiumname, String city) {
         JSONArray jar = new JSONArray();
         JSONObject js;
-        String sql = "SELECT * FROM  stadium WHERE (stadiumname LIKE ? OR stadiumtypeId LIKE ?) AND city=?  ORDER BY grade DESC";
+        String sql = "SELECT * FROM  stadium WHERE (stadiumname LIKE ? OR stadiumtypename LIKE ?) AND city=?  ORDER BY grade DESC";
         try{
             statement = (PreparedStatement)conn.prepareStatement(sql);
             statement.setString(1,"%"+stadiumname+"%");
@@ -73,7 +73,7 @@ public class StadiumDAOImpl implements IStadiumDao {
                 js =new JSONObject();
                 js.put("stadiumId",rs.getInt("stadiumId"));
                 js.put("stadiumname",rs.getString("stadiumname"));
-                js.put("stadiumtypeId",rs.getString("stadiumtypeId"));
+                js.put("stadiumtypename",rs.getString("stadiumtypename"));
                 js.put("area",rs.getString("area"));
                 js.put("num",rs.getString("num"));
                 js.put("indoor",rs.getInt("indoor"));

@@ -22,7 +22,7 @@ public class NeedDAOImpl implements INeedDao {
     @Override
     public boolean insertNeed(Need need) {
         Boolean flag = false;
-        String sql = "INSERT INTO need(StadiumId,UserId,Time,num_people,Remark,sportstypeId) VALUES(?,?,?,?,?,?)";
+        String sql = "INSERT INTO need(StadiumId,UserId,Time,num_people,Remark,sportstypeId,releasetime) VALUES(?,?,?,?,?,?,?)";
         try {
             statement = (PreparedStatement) conn.prepareStatement(sql);
             statement.setInt(1, need.getStadiumId());
@@ -31,6 +31,7 @@ public class NeedDAOImpl implements INeedDao {
             statement.setInt(4, need.getNum());
             statement.setString(5, need.getRemark());
             statement.setString(6, need.getSporttype());
+            statement.setString(7, need.getReleasetime());
             statement.executeUpdate();
             flag = true;
         } catch (SQLException e) {
@@ -130,6 +131,7 @@ public class NeedDAOImpl implements INeedDao {
                 js.put("remark", rs.getString("Remark"));
                 js.put("sportstype", rs.getString("sportstypeId"));
                 js.put("userproflie", rs.getString("proflie"));
+                js.put("releasetime", rs.getString("releasetime"));
                 jar.add(js);
 
             }
@@ -312,6 +314,7 @@ public class NeedDAOImpl implements INeedDao {
                 js.put("remark", rs.getString("Remark"));
                 js.put("sportstype", rs.getString("sportstypeId"));
                 js.put("userproflie", rs.getString("proflie"));
+                js.put("releasetime", rs.getString("releasetime"));
                 jar.add(js);
             }
 

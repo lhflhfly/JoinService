@@ -26,8 +26,8 @@ public class EvaluateDAOProxy implements IEvaluateDao {
     }
 
     @Override
-    public boolean evaluateStadium(int stadiumId, double grade, int bookingId, String content,int userId) {
-        boolean flag = evaluateDAOImpl.evaluateStadium(stadiumId,grade,bookingId,content,userId);
+    public boolean evaluateStadium(int stadiumId, double grade, int bookingId, String content,int userId,String evaluatetime) {
+        boolean flag = evaluateDAOImpl.evaluateStadium(stadiumId,grade,bookingId,content,userId,evaluatetime);
         return flag;
     }
 
@@ -58,6 +58,12 @@ public class EvaluateDAOProxy implements IEvaluateDao {
     @Override
     public JSONArray getEvaluatedInformationByStadiumId(int stadiumId) {
         JSONArray jsonArray = evaluateDAOImpl.getEvaluatedInformationByStadiumId(stadiumId);
+        return jsonArray;
+    }
+
+    @Override
+    public JSONArray getAllEvaluation() {
+        JSONArray jsonArray = evaluateDAOImpl.getAllEvaluation();
         return jsonArray;
     }
 }

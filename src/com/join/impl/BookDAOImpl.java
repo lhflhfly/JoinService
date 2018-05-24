@@ -135,4 +135,160 @@ public class BookDAOImpl implements IBookDao {
         }
         return flag;
     }
+
+    @Override
+    public boolean updateBookState(int bookingId) {
+        Boolean flag = false;
+        String sql = "UPDATE booking SET Used=1 WHERE bookingId=?";
+        try {
+            statement = conn.prepareStatement(sql);
+            statement.setInt(1, bookingId);
+            statement.executeUpdate();
+            flag = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return flag;
+    }
+
+    @Override
+    public JSONArray getNoUseBookInformationByUserId(int stadiumId) {
+        JSONArray jar = new JSONArray();
+        JSONObject js;
+        String sql = "SELECT * FROM  booklist WHERE stadiumId=? AND Used=0 ";
+        try {
+            statement = (PreparedStatement) conn.prepareStatement(sql);
+            statement.setInt(1, stadiumId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                js = new JSONObject();
+                js.put("bookingId",rs.getInt("BookingId"));
+                js.put("username", rs.getString("username"));
+                js.put("userproflie", rs.getInt("userproflie"));
+                js.put("placename", rs.getString("Placename"));
+                js.put("time", rs.getString("Time"));
+                js.put("time_order", rs.getString("OrderTime"));
+                jar.add(js);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return jar;
+    }
+
+    @Override
+    public JSONArray getUsedBookInformationByUserId(int stadiumId) {
+        JSONArray jar = new JSONArray();
+        JSONObject js;
+        String sql = "SELECT * FROM  booklist WHERE stadiumId=? AND Used=1 ";
+        try {
+            statement = (PreparedStatement) conn.prepareStatement(sql);
+            statement.setInt(1, stadiumId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                js = new JSONObject();
+                js.put("bookingId",rs.getInt("BookingId"));
+                js.put("username", rs.getString("username"));
+                js.put("userproflie", rs.getInt("userproflie"));
+                js.put("placename", rs.getString("Placename"));
+                js.put("time", rs.getString("Time"));
+                js.put("time_order", rs.getString("OrderTime"));
+                jar.add(js);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return jar;
+    }
+
+    @Override
+    public JSONArray getAllNoUseBookInformation() {
+        JSONArray jar = new JSONArray();
+        JSONObject js;
+        String sql = "SELECT * FROM  booklist WHERE Used=0 ";
+        try {
+            statement = (PreparedStatement) conn.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                js = new JSONObject();
+                js.put("bookingId",rs.getInt("BookingId"));
+                js.put("username", rs.getString("username"));
+                js.put("userproflie", rs.getInt("userproflie"));
+                js.put("placename", rs.getString("Placename"));
+                js.put("time", rs.getString("Time"));
+                js.put("time_order", rs.getString("OrderTime"));
+                js.put("stadiumname", rs.getString("stadiumname"));
+                js.put("mainpicture", rs.getString("mainpicture"));
+                jar.add(js);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return jar;
+    }
+
+    @Override
+    public JSONArray getAllUsedBookInformation() {
+        JSONArray jar = new JSONArray();
+        JSONObject js;
+        String sql = "SELECT * FROM  booklist WHERE Used=1 ";
+        try {
+            statement = (PreparedStatement) conn.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                js = new JSONObject();
+                js.put("bookingId",rs.getInt("BookingId"));
+                js.put("username", rs.getString("username"));
+                js.put("userproflie", rs.getInt("userproflie"));
+                js.put("placename", rs.getString("Placename"));
+                js.put("time", rs.getString("Time"));
+                js.put("time_order", rs.getString("OrderTime"));
+                js.put("stadiumname", rs.getString("stadiumname"));
+                js.put("mainpicture", rs.getString("mainpicture"));
+                jar.add(js);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return jar;
+    }
 }
