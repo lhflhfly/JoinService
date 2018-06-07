@@ -38,6 +38,12 @@ public class EvaluateDAOProxy implements IEvaluateDao {
     }
 
     @Override
+    public boolean updateBookingAllEvaluate(int bookingId) {
+        boolean flag = evaluateDAOImpl.updateBookingEvaluate(bookingId);
+        return flag;
+    }
+
+    @Override
     public double getEvaluateRating(int stadiumId) {
         double i = evaluateDAOImpl.getEvaluateRating(stadiumId);
         return i;

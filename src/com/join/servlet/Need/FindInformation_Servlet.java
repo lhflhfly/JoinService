@@ -35,9 +35,10 @@ public class FindInformation_Servlet extends HttpServlet {
         JSONObject js = JSONObject.fromObject(req);
         int method = js.getInt("method");
         String userId = js.getString("userId");
+        String city = js.optString("city");
         if (method == 1) {
 //            JSONArray getfindinformation = needDao.getFindInformationByUserId();
-            JSONArray getfindinformation = Factory.getNeedDAOIpmlProxy().getFindInformationByUserId();
+            JSONArray getfindinformation = Factory.getNeedDAOIpmlProxy().getFindInformationByCity(city);
             System.out.println("用");
             if (getfindinformation.size() == 0) {
                 String res = null;

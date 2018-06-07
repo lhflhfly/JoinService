@@ -111,12 +111,13 @@ public class NeedDAOImpl implements INeedDao {
     }
 
     @Override
-    public JSONArray getFindInformationByUserId() {
+    public JSONArray getFindInformationByCity(String city) {
         JSONArray jar = new JSONArray();
         JSONObject js;
-        String sql = "SELECT * FROM  needlist ";
+        String sql = "SELECT * FROM  needlist WHERE city=?";
         try {
             statement = (PreparedStatement) conn.prepareStatement(sql);
+            statement.setString(1,city);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 js = new JSONObject();

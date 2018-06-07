@@ -20,6 +20,12 @@ public class BookDAOImplProxy implements IBookDao {
     }
 
     @Override
+    public boolean orderStadiumToBookingall(Book book) {
+        boolean flag = bookDAOImpl.orderStadiumToBookingall(book);
+        return  flag;
+    }
+
+    @Override
     public JSONArray getOrderInformationByUserId(String userId) {
         JSONArray jsonArray = bookDAOImpl.getOrderInformationByUserId(userId);
         return jsonArray;

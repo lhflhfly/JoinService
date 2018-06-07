@@ -7,7 +7,7 @@ public interface INeedDao {
     public boolean insertNeed(Need need);
     public JSONArray getNeedInformationByUserId(String userId);
     public boolean deleteNeedrInformation(int needId);
-    public JSONArray getFindInformationByUserId();
+    public JSONArray getFindInformationByCity(String city);
     public boolean updateUserJoinNum(int needId);
     public boolean updateUserJoinNumDelete(int needId);
     public int getNum(int needId);

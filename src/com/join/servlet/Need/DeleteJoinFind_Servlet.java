@@ -37,9 +37,6 @@ public class DeleteJoinFind_Servlet extends HttpServlet {
         needId = Integer.parseInt(js.getString("needId"));
         userId = Integer.parseInt(js.getString("userId"));
         JSONObject results = new JSONObject();
-//        boolean flag = needDao.updateUserJoinNumDelete(needId);
-        boolean flag = Factory.getNeedDAOIpmlProxy().updateUserJoinNumDelete(needId);
-        if(flag){
             if(Factory.getNeedDAOIpmlProxy().deleteJoinedNeed(userId,needId)){
                 results.put("result",1);
                 response.setHeader("Content-type", "text/html;charset=UTF-8");
@@ -49,14 +46,6 @@ public class DeleteJoinFind_Servlet extends HttpServlet {
                 response.setHeader("Content-type", "text/html;charset=UTF-8");
                 response.getWriter().append(results.toString()).flush();
             }
-        }else{
-            results.put("result",2);
-            response.setHeader("Content-type", "text/html;charset=UTF-8");
-            response.getWriter().append(results.toString()).flush();
-        }
-
-
-
         System.out.println("用");
     }
 

@@ -138,6 +138,28 @@ public class EvaluateDAOImpl implements IEvaluateDao {
     }
 
     @Override
+    public boolean updateBookingAllEvaluate(int bookingId) {
+        Boolean flag = false;
+        String sql = "UPDATE bookingall SET Evaluate=1 WHERE BookingId=?";
+        try {
+            statement = conn.prepareStatement(sql);
+            statement.setInt(1, bookingId);
+            statement.executeUpdate();
+            flag = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return flag;
+    }
+
+    @Override
     public double getEvaluateRating(int stadiumId) {
         Double grade = null;
         String sql = "SELECT ROUND(AVG(grade),1) FROM evaluation WHERE StadiumId=?";

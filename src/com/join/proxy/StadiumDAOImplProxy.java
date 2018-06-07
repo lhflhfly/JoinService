@@ -4,6 +4,7 @@ import com.join.dao.StadiumDao;
 import com.join.idao.IStadiumDao;
 import com.join.impl.StadiumDAOImpl;
 import com.join.util.JDBCConn;
+import com.join.vo.Stadium;
 import net.sf.json.JSONArray;
 
 public class StadiumDAOImplProxy implements IStadiumDao {
@@ -53,5 +54,23 @@ public class StadiumDAOImplProxy implements IStadiumDao {
     public JSONArray getIcon(int stadiumId) {
         JSONArray jsonArray = stadiumDAOImpl.getIcon(stadiumId);
         return jsonArray;
+    }
+
+    @Override
+    public int insertStadium(Stadium stadium) {
+        int flag = stadiumDAOImpl.insertStadium(stadium);
+        return flag;
+    }
+
+    @Override
+    public boolean isRepeatStadium(String managername) {
+        boolean flag = stadiumDAOImpl.isRepeatStadium(managername);
+        return flag;
+    }
+
+    @Override
+    public boolean updateStadium(Stadium stadium) {
+        boolean flag = stadiumDAOImpl.updateStadium(stadium);
+        return flag;
     }
 }

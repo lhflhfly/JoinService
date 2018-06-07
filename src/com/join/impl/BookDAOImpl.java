@@ -48,6 +48,34 @@ public class BookDAOImpl implements IBookDao {
     }
 
     @Override
+    public boolean orderStadiumToBookingall(Book book) {
+        Boolean flag = false;
+        String sql = "INSERT INTO bookingall(UserId,StadiumId,PlaceId,Time,OrderTime,Tel) VALUES(?,?,?,?,?,?)";
+        try {
+            statement = (PreparedStatement) conn.prepareStatement(sql);
+            statement.setInt(1, book.getUserId());
+            statement.setInt(2, book.getStadiumId());
+            statement.setInt(3, book.getPlaceId());
+            statement.setString(4, book.getTime());
+            statement.setString(5, book.getTime_order());
+            statement.setString(6, book.getTel());
+            statement.executeUpdate();
+            flag = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            flag = false;
+        } finally {
+            try {
+                statement.close();
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return flag;
+    }
+
+    @Override
     public JSONArray getOrderInformationByUserId(String userId) {
         JSONArray jar = new JSONArray();
         JSONObject js;

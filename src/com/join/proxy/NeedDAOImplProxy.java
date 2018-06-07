@@ -32,8 +32,8 @@ public class NeedDAOImplProxy implements INeedDao {
     }
 
     @Override
-    public JSONArray getFindInformationByUserId() {
-        JSONArray jsonArray = needDAOImpl.getFindInformationByUserId();
+    public JSONArray getFindInformationByCity(String city) {
+        JSONArray jsonArray = needDAOImpl.getFindInformationByCity(city);
         return  jsonArray;
     }
 

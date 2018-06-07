@@ -39,13 +39,15 @@ public class EvaluateStadium_Servlet extends HttpServlet {
         String bookingId = js.getString("bookingId");
         String content = js.getString("content");
         String userId = js.getString("userId");
+        String evaluatetime = js.getString("evaluatetime");
         EvaluateDao evaluateDao = new EvaluateDao();
         JSONObject results = new JSONObject();
 //        boolean insert = evaluateDao.evaluateStadium(Integer.parseInt(stadiumId),Double.valueOf(grade),Integer.parseInt(bookingId),content);
-        boolean insert = Factory.getEvaluateDAOIpmlProxy().evaluateStadium(Integer.parseInt(stadiumId),Double.valueOf(grade),Integer.parseInt(bookingId),content,Integer.parseInt(userId));
+        boolean insert = Factory.getEvaluateDAOIpmlProxy().evaluateStadium(Integer.parseInt(stadiumId),Double.valueOf(grade),Integer.parseInt(bookingId),content,Integer.parseInt(userId),evaluatetime);
         if(insert){
 //            evaluateDao.updateBookingEvaluate(Integer.parseInt(bookingId));
             Factory.getEvaluateDAOIpmlProxy().updateBookingEvaluate(Integer.parseInt(bookingId));
+            Factory.getEvaluateDAOIpmlProxy().updateBookingAllEvaluate(Integer.parseInt(bookingId));
             Double f = Factory.getEvaluateDAOIpmlProxy().getEvaluateRating(Integer.parseInt(stadiumId));
 //            evaluateDao.getEvaluateRating(Integer.parseInt(stadiumId));
 //            evaluateDao.updateStadiumGrade(Integer.parseInt(stadiumId),f);

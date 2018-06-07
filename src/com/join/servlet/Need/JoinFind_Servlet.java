@@ -52,10 +52,9 @@ public class JoinFind_Servlet extends HttpServlet {
 
         } else {
             if (num > num_join) {
-                boolean flag = Factory.getNeedDAOIpmlProxy().updateUserJoinNum(needId);
-//                boolean flag = needDao.updateUserJoinNum(needId);
-                if (flag) {
-//                    boolean flag2 = needDao.insertJoin(userId,needId);
+
+
+//                 boolean flag2 = needDao.insertJoin(userId,needId);
                     boolean flag2 = Factory.getNeedDAOIpmlProxy().insertJoin(userId, needId);
                     if (flag2) {
                         results.put("result", 1);
@@ -68,11 +67,6 @@ public class JoinFind_Servlet extends HttpServlet {
                         response.getWriter().append(results.toString()).flush();
 
                     }
-                } else {
-                    results.put("result", 0);
-                    response.setHeader("Content-type", "text/html;charset=UTF-8");
-                    response.getWriter().append(results.toString()).flush();
-                }
             } else {
                 results.put("result", 2);
                 response.setHeader("Content-type", "text/html;charset=UTF-8");

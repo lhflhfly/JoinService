@@ -37,7 +37,8 @@ public class OrderStadium_Servlet extends HttpServlet {
         JSONObject results = new JSONObject();
 //            boolean insert = bookDao.orderStadium(book);
         boolean insert = Factory.getBookDAOIpmlProxy().orderStadium(book);
-            if(insert){
+        boolean insert1 = Factory.getBookDAOIpmlProxy().orderStadiumToBookingall(book);
+            if(insert && insert1){
                 results.put("result",1);
             }
         System.out.println("即将发送给客户端的是:"+results.toString());

@@ -2,6 +2,7 @@ package com.join.impl;
 
 import com.join.idao.IStadiumDao;
 import com.join.util.JDBCConn;
+import com.join.vo.Stadium;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -241,5 +242,99 @@ public class StadiumDAOImpl implements IStadiumDao {
             }
         }
         return jar;
+    }
+
+    @Override
+    public int insertStadium(Stadium stadium) {
+        int flag = 0;
+        String sql = "INSERT INTO user(managername,managerpassword,city,adress,opentime,closetime,stadiumname,stadiumtypename,area,num,indoor,aircondition,stadiumtel,mainpicture) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        try {
+            statement = (PreparedStatement) conn.prepareStatement(sql);
+            statement.setString(1, stadium.getManagername());
+            statement.setString(2, stadium.getManagerpassword());
+            statement.setString(3, stadium.getCity());
+            statement.setString(4, stadium.getAdress());
+            statement.setString(5, stadium.getOpentime());
+            statement.setString(6, stadium.getClosetime());
+            statement.setString(7, stadium.getStadiumname());
+            statement.setString(8, stadium.getStadiumtype());
+            statement.setString(9, stadium.getArea());
+            statement.setString(10, stadium.getNum());
+            statement.setInt(11, stadium.getIndoor());
+            statement.setInt(12, stadium.getAircondition());
+            statement.setString(13, stadium.getStadiumtel());
+            statement.setString(14, stadium.getMainpicture());
+            statement.executeUpdate();
+            flag = 1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            flag = 0;
+
+        } finally {
+            try {
+                statement.close();
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return flag;
+    }
+
+    @Override
+    public boolean isRepeatStadium(String managername) {
+        Boolean flag = true;
+        String sql = "SELECT * FROM stadium WHERE managername=?";
+        try (Connection conn = JDBCConn.getCon()) {
+            statement = (PreparedStatement) conn.prepareStatement(sql);
+            statement.setString(1, managername);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                flag = false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return flag;
+    }
+
+    @Override
+    public boolean updateStadium(Stadium stadium) {
+        Boolean flag = false;
+        String sql = "UPDATE stadium SET managername=?,adress=?,opentime=?,closetime=?,stadiumname=?,stadiumtypename=?,area=?,num=?,indoor=?,aircondition=?,stadiumtel=? WHERE stadiumId=?";
+        try {
+            statement = conn.prepareStatement(sql);
+            statement.setString(1, stadium.getManagername());
+            statement.setString(2, stadium.getAdress());
+            statement.setString(3, stadium.getOpentime());
+            statement.setString(4, stadium.getClosetime());
+            statement.setString(5, stadium.getStadiumname());
+            statement.setString(6, stadium.getStadiumtype());
+            statement.setString(7, stadium.getArea());
+            statement.setString(8, stadium.getNum());
+            statement.setInt(9, stadium.getIndoor());
+            statement.setInt(10, stadium.getAircondition());
+            statement.setString(11, stadium.getStadiumtel());
+            statement.setInt(12, stadium.getStadiumId());
+            statement.executeUpdate();
+            flag = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return flag;
     }
 }

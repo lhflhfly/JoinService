@@ -8,6 +8,7 @@ public interface IEvaluateDao {
     public JSONArray getEvaluatedInformationByUserId(String userId);
     public boolean evaluateStadium(int stadiumId,double grade,int bookingId,String content,int userId,String evaluatetime);
     public boolean updateBookingEvaluate(int bookingId);
+    public boolean updateBookingAllEvaluate(int bookingId);
     public double getEvaluateRating(int stadiumId);
     public boolean updateStadiumGrade(int stadiumId,double grade);
     public JSONObject evauate(int booking);
