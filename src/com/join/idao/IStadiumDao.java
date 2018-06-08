@@ -14,5 +14,6 @@ public interface IStadiumDao {
     public int insertStadium(Stadium stadium);
     public boolean isRepeatStadium(String managername);
     public boolean updateStadium(Stadium stadium);
+    public int geticonnum(int stadiumId);
 
 }

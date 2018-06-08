@@ -337,4 +337,31 @@ public class StadiumDAOImpl implements IStadiumDao {
         }
         return flag;
     }
+
+    @Override
+    public int geticonnum(int stadiumId) {
+        int num = 0;
+        String sql = "select COUNT(icon) FROM stadiumicon WHERE stadiumId = ?";
+        try {
+            statement = (PreparedStatement) conn.prepareStatement(sql);
+            statement.setInt(1, stadiumId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()){
+                num = rs.getInt("COUNT(icon)");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            num = 0;
+
+        } finally {
+            try {
+                statement.close();
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return num;
+
+    }
 }

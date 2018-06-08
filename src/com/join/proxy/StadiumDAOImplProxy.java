@@ -73,4 +73,10 @@ public class StadiumDAOImplProxy implements IStadiumDao {
         boolean flag = stadiumDAOImpl.updateStadium(stadium);
         return flag;
     }
+
+    @Override
+    public int geticonnum(int stadiumId) {
+        int num = stadiumDAOImpl.geticonnum(stadiumId);
+        return num;
+    }
 }

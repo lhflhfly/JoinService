@@ -114,7 +114,7 @@ public class NeedDAOImpl implements INeedDao {
     public JSONArray getFindInformationByCity(String city) {
         JSONArray jar = new JSONArray();
         JSONObject js;
-        String sql = "SELECT * FROM  needlist WHERE city=?";
+        String sql = "SELECT * FROM  needlist WHERE city=? AND overtime=0";
         try {
             statement = (PreparedStatement) conn.prepareStatement(sql);
             statement.setString(1,city);
