@@ -76,4 +76,10 @@ public class UserDAOImplProxy implements IUserDao{
         boolean flag = userDAOImpl.updateProflie(userId,proflie);
         return  flag;
     }
+
+    @Override
+    public JSONObject getPassword(User user) {
+        JSONObject js = userDAOImpl.getPassword(user);
+        return js;
+    }
 }

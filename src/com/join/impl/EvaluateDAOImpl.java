@@ -250,7 +250,7 @@ public class EvaluateDAOImpl implements IEvaluateDao {
                 js.put("content", rs.getString("content"));
                 js.put("grade",rs.getDouble("grade"));
                 js.put("placename", rs.getString("placename"));
-                js.put("evaluatetime", rs.getString("evaluatetime"));
+                js.put("time", rs.getString("evaluatetime"));
                 jar.add(js);
             }
 

@@ -22,7 +22,7 @@ public class NeedDAOImpl implements INeedDao {
     @Override
     public boolean insertNeed(Need need) {
         Boolean flag = false;
-        String sql = "INSERT INTO need(StadiumId,UserId,Time,num_people,Remark,sportstypeId,releasetime) VALUES(?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO need(StadiumId,UserId,Time,num_people,Remark,sportstypeId,releasetime,tel) VALUES(?,?,?,?,?,?,?)";
         try {
             statement = (PreparedStatement) conn.prepareStatement(sql);
             statement.setInt(1, need.getStadiumId());
@@ -32,6 +32,7 @@ public class NeedDAOImpl implements INeedDao {
             statement.setString(5, need.getRemark());
             statement.setString(6, need.getSporttype());
             statement.setString(7, need.getReleasetime());
+            statement.setString(8, need.getTel());
             statement.executeUpdate();
             flag = true;
         } catch (SQLException e) {
@@ -70,6 +71,7 @@ public class NeedDAOImpl implements INeedDao {
                 js.put("remark", rs.getString("Remark"));
                 js.put("sportstype", rs.getString("sportstypeId"));
                 js.put("userproflie", rs.getString("proflie"));
+                js.put("tel", rs.getString("tel"));
                 jar.add(js);
 
             }
@@ -114,7 +116,7 @@ public class NeedDAOImpl implements INeedDao {
     public JSONArray getFindInformationByCity(String city) {
         JSONArray jar = new JSONArray();
         JSONObject js;
-        String sql = "SELECT * FROM  needlist WHERE city=? AND overtime=0";
+        String sql = "SELECT * FROM  needlist WHERE city=?";
         try {
             statement = (PreparedStatement) conn.prepareStatement(sql);
             statement.setString(1,city);
@@ -316,6 +318,7 @@ public class NeedDAOImpl implements INeedDao {
                 js.put("sportstype", rs.getString("sportstypeId"));
                 js.put("userproflie", rs.getString("proflie"));
                 js.put("releasetime", rs.getString("releasetime"));
+                js.put("tel", rs.getString("tel"));
                 jar.add(js);
             }
 

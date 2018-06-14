@@ -304,4 +304,35 @@ public class UserDAOImpl implements IUserDao {
         }
         return flag;
     }
+
+    @Override
+    public JSONObject getPassword(User user) {
+        JSONObject js = new JSONObject();
+        String sql = "SELECT userId,password FROM user WHERE username=? AND tel=? AND realname=?";
+        try {
+            statement = conn.prepareStatement(sql);
+            statement.setString(1, user.getUsername());
+            statement.setString(2, user.getTel());
+            statement.setString(3, user.getRealname());
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                js.put("userId", resultSet.getInt("userId"));
+                js.put("password", resultSet.getString("password"));
+            } else {
+                js.put("userId", 0);
+            }
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+
+        } finally {
+            try {
+                statement.close();
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return js;
+    }
 }

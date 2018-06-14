@@ -42,6 +42,7 @@ public class StadiumDAOImpl implements IStadiumDao {
                 js.put("closetime",rs.getString("closetime"));
                 js.put("grade",rs.getDouble("grade"));
                 js.put("iconnum",rs.getDouble("iconnum"));
+                js.put("stadiumtel",rs.getString("stadiumtel"));
                 jar.add(js);
 
             }

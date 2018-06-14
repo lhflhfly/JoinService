@@ -9,6 +9,7 @@ public class Need {
     private String sporttype;
     private int num_join;
     private String releasetime;
+    private String tel;
 
     public String getReleasetime() {
         return releasetime;
@@ -72,5 +73,13 @@ public class Need {
 
     public void setNum_join(int num_join) {
         this.num_join = num_join;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
     }
 }

@@ -15,5 +15,6 @@ public interface IUserDao {
     public boolean deleteUser(int userId);
     public boolean updatePassword(int userId,String password);
     public boolean updateProflie(int userId,String proflie);
+    public JSONObject getPassword(User user);
 
 }

@@ -42,6 +42,7 @@ public class InsertNeed_Servlet extends HttpServlet {
         need.setSporttype(js.getString("stadiumtype"));
         System.out.println("------------------------>7");
         need.setReleasetime(js.getString("releasetime"));
+        need.setTel(js.getString("tel"));
         JSONObject results = new JSONObject();
 //            boolean insert = needDao.insertNeed(need);
         boolean insert = Factory.getNeedDAOIpmlProxy().insertNeed(need);
